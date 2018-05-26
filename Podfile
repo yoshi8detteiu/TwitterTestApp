@@ -5,8 +5,10 @@ use_frameworks!
 
 target 'TwitterTestApp' do 
 
-  pod 'AFNetworking'
   pod 'TwitterKit'
+  pod 'AlamofireImage'
+
+  pod 'AFNetworking'
   pod 'RealmSwift'
   pod 'RxSwift'
   pod 'RxCocoa'

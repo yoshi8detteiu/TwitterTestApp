@@ -10,35 +10,74 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="117" id="Dol-BR-CyF">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="117"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetViewCell" rowHeight="87" id="Dol-BR-CyF" customClass="TweetViewCell" customModule="TwitterTestApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dol-BR-CyF" id="t74-Uf-kL0">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="116.5"/>
-                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="87"/>
+                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n24-xb-7UC">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5EC-no-dk0" customClass="CircleImageView" customModule="TwitterTestApp" customModuleProvider="target">
                         <rect key="frame" x="16" y="16" width="55" height="55"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="55" id="4f8-Ls-tfn"/>
+                            <constraint firstAttribute="width" constant="55" id="UvU-dB-aNQ"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="100"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPE-ZS-V3p">
-                        <rect key="frame" x="91" y="11" width="106" height="21"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9yT-z2-CtL" userLabel="Author Icon Button">
+                        <rect key="frame" x="16" y="16" width="55" height="55"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="55" id="OQW-n4-07r"/>
+                            <constraint firstAttribute="height" constant="55" id="cAk-eV-fKS"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="28"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPE-ZS-V3p">
+                        <rect key="frame" x="87" y="16" width="72.5" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwx-E7-Bau">
-                        <rect key="frame" x="91" y="40" width="268" height="61"/>
-                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
-                        <string key="text">LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel</string>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelLabelLabelLabelLabelLabelLabel" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kwx-E7-Bau">
+                        <rect key="frame" x="87" y="39" width="272" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="kwx-E7-Bau" firstAttribute="leading" secondItem="9yT-z2-CtL" secondAttribute="trailing" constant="16" id="87K-fT-ZXu"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kwx-E7-Bau" secondAttribute="bottom" constant="16" id="HcH-R2-999"/>
+                    <constraint firstItem="aPE-ZS-V3p" firstAttribute="leading" secondItem="9yT-z2-CtL" secondAttribute="trailing" constant="16" id="Ms2-oT-gHN"/>
+                    <constraint firstItem="5EC-no-dk0" firstAttribute="top" secondItem="t74-Uf-kL0" secondAttribute="top" constant="16" id="NVW-5W-NNw"/>
+                    <constraint firstItem="5EC-no-dk0" firstAttribute="leading" secondItem="t74-Uf-kL0" secondAttribute="leading" constant="16" id="P2V-mV-ZvO"/>
+                    <constraint firstItem="aPE-ZS-V3p" firstAttribute="top" secondItem="t74-Uf-kL0" secondAttribute="top" constant="16" id="QGV-ki-DNJ"/>
+                    <constraint firstItem="9yT-z2-CtL" firstAttribute="leading" secondItem="t74-Uf-kL0" secondAttribute="leading" constant="16" id="QuX-Jc-ilB"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="9yT-z2-CtL" secondAttribute="bottom" constant="16" id="Zyp-A0-xkM"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aPE-ZS-V3p" secondAttribute="trailing" constant="16" id="fj3-iA-48K"/>
+                    <constraint firstItem="9yT-z2-CtL" firstAttribute="top" secondItem="t74-Uf-kL0" secondAttribute="top" constant="16" id="sJr-2M-zUf"/>
+                    <constraint firstAttribute="trailing" secondItem="kwx-E7-Bau" secondAttribute="trailing" constant="16" id="vol-br-ush"/>
+                    <constraint firstItem="kwx-E7-Bau" firstAttribute="top" secondItem="t74-Uf-kL0" secondAttribute="top" constant="39" id="yCT-8J-1Za"/>
+                </constraints>
             </tableViewCellContentView>
-            <point key="canvasLocation" x="21.5" y="554.5"/>
+            <connections>
+                <outlet property="authorIconButton" destination="9yT-z2-CtL" id="4Nw-eA-LtF"/>
+                <outlet property="authorIconImageView" destination="5EC-no-dk0" id="hlr-W5-Bjk"/>
+                <outlet property="authorNameLabel" destination="aPE-ZS-V3p" id="VYn-0d-1L3"/>
+                <outlet property="tweetLabel" destination="kwx-E7-Bau" id="84h-cn-WFp"/>
+            </connections>
+            <point key="canvasLocation" x="21.5" y="539.5"/>
         </tableViewCell>
     </objects>
 </document>
