@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		332C1BDB20B7DF51000F12E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C1BDA20B7DF51000F12E1 /* AppDelegate.swift */; };
 		332C1BDD20B7DF51000F12E1 /* TimeLineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C1BDC20B7DF51000F12E1 /* TimeLineViewController.swift */; };
-		332C1BE020B7DF51000F12E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BDE20B7DF51000F12E1 /* Main.storyboard */; };
+		332C1BE020B7DF51000F12E1 /* TimeLineViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BDE20B7DF51000F12E1 /* TimeLineViewController.storyboard */; };
 		332C1BE220B7DF56000F12E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BE120B7DF56000F12E1 /* Assets.xcassets */; };
 		332C1BE520B7DF56000F12E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BE320B7DF56000F12E1 /* LaunchScreen.storyboard */; };
 		33A9C96A20B7E7EC008AD6CA /* TweetViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33A9C96920B7E7EC008AD6CA /* TweetViewCell.xib */; };
 		33B705D920B994CF0079FCB0 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705D820B994CF0079FCB0 /* CircleImageView.swift */; };
 		33B705DB20B9A5040079FCB0 /* TimeLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705DA20B9A5040079FCB0 /* TimeLineModel.swift */; };
 		33B705DE20B9A5200079FCB0 /* TwitterAPIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705DD20B9A5200079FCB0 /* TwitterAPIUtil.swift */; };
+		33B705E120B9AD0A0079FCB0 /* UserPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705DF20B9AD0A0079FCB0 /* UserPageViewController.swift */; };
+		33B705E420B9AD820079FCB0 /* UserPageViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33B705E320B9AD820079FCB0 /* UserPageViewController.storyboard */; };
 		33D2BC8F20B91C40004FF7D0 /* LambdaTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D2BC8D20B91C3F004FF7D0 /* LambdaTableView.swift */; };
 		33D2BC9020B91C40004FF7D0 /* LambdaTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D2BC8E20B91C3F004FF7D0 /* LambdaTextView.swift */; };
 		33D2BC9320B9355A004FF7D0 /* TweetViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D2BC9220B9355A004FF7D0 /* TweetViewCell.swift */; };
@@ -26,7 +28,7 @@
 		332C1BD720B7DF51000F12E1 /* TwitterTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		332C1BDA20B7DF51000F12E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		332C1BDC20B7DF51000F12E1 /* TimeLineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineViewController.swift; sourceTree = "<group>"; };
-		332C1BDF20B7DF51000F12E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		332C1BDF20B7DF51000F12E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TimeLineViewController.storyboard; sourceTree = "<group>"; };
 		332C1BE120B7DF56000F12E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		332C1BE420B7DF56000F12E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		332C1BE620B7DF56000F12E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -34,6 +36,8 @@
 		33B705D820B994CF0079FCB0 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		33B705DA20B9A5040079FCB0 /* TimeLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineModel.swift; sourceTree = "<group>"; };
 		33B705DD20B9A5200079FCB0 /* TwitterAPIUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAPIUtil.swift; sourceTree = "<group>"; };
+		33B705DF20B9AD0A0079FCB0 /* UserPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPageViewController.swift; sourceTree = "<group>"; };
+		33B705E320B9AD820079FCB0 /* UserPageViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UserPageViewController.storyboard; sourceTree = "<group>"; };
 		33BC651D20B80542007F533D /* TwitterTestApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TwitterTestApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		33D2BC8D20B91C3F004FF7D0 /* LambdaTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LambdaTableView.swift; sourceTree = "<group>"; };
 		33D2BC8E20B91C3F004FF7D0 /* LambdaTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LambdaTextView.swift; sourceTree = "<group>"; };
@@ -81,7 +85,6 @@
 				33A9C96620B7E776008AD6CA /* ViewController */,
 				332C1BDA20B7DF51000F12E1 /* AppDelegate.swift */,
 				332C1BE120B7DF56000F12E1 /* Assets.xcassets */,
-				332C1BDE20B7DF51000F12E1 /* Main.storyboard */,
 				332C1BE320B7DF56000F12E1 /* LaunchScreen.storyboard */,
 				332C1BE620B7DF56000F12E1 /* Info.plist */,
 				33BC651D20B80542007F533D /* TwitterTestApp-Bridging-Header.h */,
@@ -93,6 +96,9 @@
 			isa = PBXGroup;
 			children = (
 				332C1BDC20B7DF51000F12E1 /* TimeLineViewController.swift */,
+				33B705DF20B9AD0A0079FCB0 /* UserPageViewController.swift */,
+				33B705E320B9AD820079FCB0 /* UserPageViewController.storyboard */,
+				332C1BDE20B7DF51000F12E1 /* TimeLineViewController.storyboard */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -214,9 +220,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				332C1BE520B7DF56000F12E1 /* LaunchScreen.storyboard in Resources */,
+				33B705E420B9AD820079FCB0 /* UserPageViewController.storyboard in Resources */,
 				332C1BE220B7DF56000F12E1 /* Assets.xcassets in Resources */,
 				33A9C96A20B7E7EC008AD6CA /* TweetViewCell.xib in Resources */,
-				332C1BE020B7DF51000F12E1 /* Main.storyboard in Resources */,
+				332C1BE020B7DF51000F12E1 /* TimeLineViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +312,7 @@
 				33B705DB20B9A5040079FCB0 /* TimeLineModel.swift in Sources */,
 				33D2BC9020B91C40004FF7D0 /* LambdaTextView.swift in Sources */,
 				33B705DE20B9A5200079FCB0 /* TwitterAPIUtil.swift in Sources */,
+				33B705E120B9AD0A0079FCB0 /* UserPageViewController.swift in Sources */,
 				33D2BC8F20B91C40004FF7D0 /* LambdaTableView.swift in Sources */,
 				332C1BDD20B7DF51000F12E1 /* TimeLineViewController.swift in Sources */,
 				332C1BDB20B7DF51000F12E1 /* AppDelegate.swift in Sources */,
@@ -316,12 +324,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		332C1BDE20B7DF51000F12E1 /* Main.storyboard */ = {
+		332C1BDE20B7DF51000F12E1 /* TimeLineViewController.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				332C1BDF20B7DF51000F12E1 /* Base */,
 			);
-			name = Main.storyboard;
+			name = TimeLineViewController.storyboard;
 			sourceTree = "<group>";
 		};
 		332C1BE320B7DF56000F12E1 /* LaunchScreen.storyboard */ = {

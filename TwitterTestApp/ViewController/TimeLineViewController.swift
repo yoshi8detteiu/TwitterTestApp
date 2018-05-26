@@ -35,7 +35,7 @@ class TimeLineViewController: UIViewController {
         
         self.timelineTableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
         self.timelineTableView.register(UINib(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
-        self.timelineTableView.estimatedRowHeight = 87
+        self.timelineTableView.estimatedRowHeight = 78
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
         
         self.timelineTableView.dataSourceNumberOfRowsInSection = {section in
@@ -46,9 +46,8 @@ class TimeLineViewController: UIViewController {
             return 1
         }
         
-        
         self.timelineTableView.delegateHeightRowAt = { indexPath in
-            return  UITableViewAutomaticDimension // 87 // TEMP
+            return  UITableViewAutomaticDimension
         }
         
         self.timelineTableView.dataSourceCellForRowAt = {[weak self] indexPath in
@@ -62,16 +61,19 @@ class TimeLineViewController: UIViewController {
 //            cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.author.profileImageURL)!, completion: {[weak self] res in
 //                self?.timelineTableView.scrollToRow(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
 //            })
-//            cell.authorIconButton.af_setBackgroundImage(for: UIControlState.normal, url: URL(string: tweet.author.profileImageURL)!)
+            cell.pushedIconButton = {[weak self] sender in
+                // タップされたユーザのページへ
+                let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
+                let nextView  = storyboard.instantiateInitialViewController()
+                self?.navigationController?.pushViewController(nextView!, animated: true)
+            }
             cell.layoutIfNeeded()
             return cell
         }
         
         self.timelineTableView.reloadData()
-
     }
     
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

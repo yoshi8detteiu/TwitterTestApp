@@ -11,9 +11,10 @@ import UIKit
 class TweetViewCell: UITableViewCell {
 
     @IBOutlet weak var authorIconImageView: CircleImageView!
-    @IBOutlet weak var authorIconButton: UIButton!
     @IBOutlet weak var authorNameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
+    
+    var pushedIconButton: ((_ sender: Any) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +25,10 @@ class TweetViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func pushIconButton(_ sender: Any) {
+        self.pushedIconButton?(sender)
     }
     
 }
