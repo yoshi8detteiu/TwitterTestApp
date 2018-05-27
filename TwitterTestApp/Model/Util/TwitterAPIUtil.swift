@@ -18,13 +18,13 @@ class TwitterAPIUtil: NSObject {
         let apiClient = TWTRAPIClient(userID: sessionUserId)
         var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/home_timeline.json",
-                                           parameters: ["count": "15"],
+                                           parameters: ["count": "30"],
                                            error: &clientError)
         
         if !maxId.isEmpty {
             request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/home_timeline.json",
-                                           parameters: ["count": "15",
+                                           parameters: ["count": "30",
                                                         "max_id": maxId],
                                            error: &clientError)
         }
@@ -49,14 +49,14 @@ class TwitterAPIUtil: NSObject {
         var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/user_timeline.json",
                                            parameters: ["user_id": userId,
-                                                        "count": "50"],
+                                                        "count": "30"],
                                            error: &clientError)
         
         if !maxId.isEmpty {
             request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/user_timeline.json",
                                            parameters: ["user_id": userId,
-                                                        "count": "50",
+                                                        "count": "30",
                                                         "max_id": maxId ],
                                            error: &clientError)
         }
@@ -82,14 +82,14 @@ class TwitterAPIUtil: NSObject {
         var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/search/tweets.json",
                                            parameters: ["q": searchText,
-                                                        "count": "50"],
+                                                        "count": "30"],
                                            error: &clientError)
         
         if !maxId.isEmpty {
             request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/search/tweets.json",
                                            parameters: ["q": searchText,
-                                                        "count": "50",
+                                                        "count": "30",
                                                         "max_id": maxId ],
                                            error: &clientError)
         }
