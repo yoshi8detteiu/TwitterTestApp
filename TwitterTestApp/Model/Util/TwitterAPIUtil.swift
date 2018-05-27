@@ -11,17 +11,24 @@ import SwiftyJSON
 
 class TwitterAPIUtil: NSObject {
     
-    static func requestHomeTimeLine(_ sessionUserId: String ,_ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+    static func requestHomeTimeLine(_ sessionUserId:String, _ maxId: String = "", _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+        
         
         var clientError: NSError?
-        
         let apiClient = TWTRAPIClient(userID: sessionUserId)
-        let request = apiClient.urlRequest(withMethod: "GET",
+        var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/home_timeline.json",
-                                           parameters: ["count": "50"],
+                                           parameters: ["count": "15"],
                                            error: &clientError)
         
-        
+        if !maxId.isEmpty {
+            request = apiClient.urlRequest(withMethod: "GET",
+                                           urlString: "https://api.twitter.com/1.1/statuses/home_timeline.json",
+                                           parameters: ["count": "15",
+                                                        "max_id": maxId],
+                                           error: &clientError)
+        }
+
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -34,17 +41,26 @@ class TwitterAPIUtil: NSObject {
         }
     }
     
-    static func requestUserTimeLine(_ sessionUserId: String, _ userId: String, _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+    static func requestUserTimeLine(_ sessionUserId:String, _ userId:String, _ maxId:String = "", _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
         var clientError: NSError?
         
         let apiClient = TWTRAPIClient(userID: sessionUserId)
-        let request = apiClient.urlRequest(withMethod: "GET",
+        var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/user_timeline.json",
                                            parameters: ["user_id": userId,
                                                         "count": "50"],
                                            error: &clientError)
         
+        if !maxId.isEmpty {
+            request = apiClient.urlRequest(withMethod: "GET",
+                                           urlString: "https://api.twitter.com/1.1/statuses/user_timeline.json",
+                                           parameters: ["user_id": userId,
+                                                        "count": "50",
+                                                        "max_id": maxId ],
+                                           error: &clientError)
+        }
+        
         
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {
@@ -58,17 +74,25 @@ class TwitterAPIUtil: NSObject {
         }
     }
     
-    static func requestSearch(_ sessionUserId: String, _ searchText: String, _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+    static func requestSearch(_ sessionUserId: String, _ searchText: String, _ maxId:String = "", _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
         var clientError: NSError?
         
         let apiClient = TWTRAPIClient(userID: sessionUserId)
-        let request = apiClient.urlRequest(withMethod: "GET",
+        var request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/search/tweets.json",
                                            parameters: ["q": searchText,
                                                         "count": "50"],
                                            error: &clientError)
         
+        if !maxId.isEmpty {
+            request = apiClient.urlRequest(withMethod: "GET",
+                                           urlString: "https://api.twitter.com/1.1/search/tweets.json",
+                                           parameters: ["q": searchText,
+                                                        "count": "50",
+                                                        "max_id": maxId ],
+                                           error: &clientError)
+        }
         
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {

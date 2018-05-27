@@ -9,24 +9,36 @@
 import Foundation
 
 class TimeLineModel: NSObject {
-        
+    
+    private var isLoading = false
+    
     func loadTimeLine(_ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+        
+        if self.isLoading { return }
+        
+        let afterTask:((Array<TweetModel>) -> Void) = { [weak self] twArray in
+            afterAction(twArray)
+            self?.isLoading = false
+        }
+        
+        let errorTask:((String) -> Void) = { [weak self] message in
+            errorAction(message)
+            self?.isLoading = false
+        }
         
         // ログインチェック
         let sessionStore = TWTRTwitter.sharedInstance().sessionStore
         if let session = sessionStore.session() {
-            TwitterAPIUtil.requestHomeTimeLine(session.userID, {twArray in
-                afterAction(twArray)
-            }, errorAction)
+            self.isLoading = true
+            TwitterAPIUtil.requestHomeTimeLine(session.userID, "", afterTask, errorTask)
             return
         }
         
         // 初回ログイン
         TWTRTwitter.sharedInstance().logIn { session, error in
             if let session = session {
-                TwitterAPIUtil.requestHomeTimeLine(session.userID, {twArray in
-                    afterAction(twArray)
-                }, errorAction)
+                self.isLoading = true
+                TwitterAPIUtil.requestHomeTimeLine(session.userID, "", afterTask, errorTask)
             }
             else if let error = error {
                 print("error: \(error.localizedDescription)")
@@ -51,5 +63,27 @@ class TimeLineModel: NSObject {
         return sessionStore.session() != nil
     }
     
-    
+    func moreTimeLine(_ maxId:String, _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+        
+        if self.isLoading { return }
+        
+        let afterTask:((Array<TweetModel>) -> Void) = { [weak self] twArray in
+            self?.isLoading = false
+            afterAction(twArray)
+        }
+        
+        let errorTask:((String) -> Void) = { [weak self] message in
+            self?.isLoading = false
+            errorAction(message)
+        }
+        
+        let sessionStore = TWTRTwitter.sharedInstance().sessionStore
+        if let session = sessionStore.session() {
+            self.isLoading = true
+            TwitterAPIUtil.requestHomeTimeLine(session.userID, maxId, afterTask, errorTask)
+        }
+        else {
+            errorAction("再ログインしてください")
+        }
+    }
 }

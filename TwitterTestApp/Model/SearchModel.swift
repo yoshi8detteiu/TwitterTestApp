@@ -41,18 +41,22 @@ class SearchModel: NSObject {
         // ログインチェック
         let sessionStore = TWTRTwitter.sharedInstance().sessionStore
         if let session = sessionStore.session() {
-            TwitterAPIUtil.requestSearch(session.userID, text,  {twArray in
-                afterAction(twArray)
-            }, errorAction)
+            TwitterAPIUtil.requestSearch(session.userID,
+                                         text,
+                                         "",
+                                         {twArray in afterAction(twArray)},
+                                         errorAction)
             return
         }
         
         // 初回ログイン
         TWTRTwitter.sharedInstance().logIn { session, error in
             if let session = session {
-                TwitterAPIUtil.requestSearch(session.userID, text,  {twArray in
-                    afterAction(twArray)
-                }, errorAction)
+                TwitterAPIUtil.requestSearch(session.userID,
+                                             text,
+                                             "",
+                                             {twArray in afterAction(twArray)},
+                                             errorAction)
             }
             else if let error = error {
                 print("error: \(error.localizedDescription)")

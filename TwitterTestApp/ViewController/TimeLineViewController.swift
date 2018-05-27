@@ -13,10 +13,17 @@ class TimeLineViewController: UIViewController {
 
     @IBOutlet weak var tableView: LambdaTableView!
     
-    private var model:TimeLineModel = TimeLineModel()
+    private let model:TimeLineModel = TimeLineModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //空白行のラインを消す
+        self.tableView.tableFooterView = UIView()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(hex: 0x1DA1F2)
+        refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,7 +85,41 @@ class TimeLineViewController: UIViewController {
             return cell
         }
         
+        self.tableView.delegateScrollDidScroll = { [weak self] in
+
+            let currentOffsetY = (self?.tableView.contentOffset.y)!
+            let maximumOffset = (self?.tableView.contentSize.height)! - (self?.tableView.frame.height)!
+            let distanceToBottom = maximumOffset - currentOffsetY
+            if distanceToBottom < 100 {
+                // TODO: 無限スクロール
+//                self?.moreTimeLineView(twArray)
+            }
+        }
+        
+        // reloadDataでoffsetがリセットされないように
+        let offset = self.tableView.contentOffset;
         self.tableView.reloadData()
+        self.tableView.layoutIfNeeded()
+        self.tableView.setContentOffset(offset, animated: false)
+    }
+    
+    private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
+        
+        let maxId = oldTwArray.last?.base?.tweetID
+        self.model.moreTimeLine(maxId!,
+            {[weak self] twArray in
+                let newTwArray = oldTwArray + twArray
+                self?.loadTableView(newTwArray)
+            },
+            { message in
+                //TODO: アラート
+        })
+    }
+    
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadTimeLineView()
+        // ローディングを終了
+        sender.endRefreshing()
     }
     
     @IBAction func pushMoreButton(_ sender: Any) {
@@ -122,7 +163,6 @@ class TimeLineViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 
 }
 

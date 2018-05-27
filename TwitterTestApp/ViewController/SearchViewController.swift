@@ -17,6 +17,8 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //空白行のラインを消す
+        self.tableView.tableFooterView = UIView()
         // カメラロール起動
         let c = UIImagePickerController()
         c.delegate = self
@@ -26,6 +28,7 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
     /** UIImagePickerControllerDelegate - キャンセルボタンを押された時に呼ばれる */
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     /** UIImagePickerControllerDelegate - 写真が選択された時に呼ばれる */
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {

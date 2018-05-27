@@ -15,18 +15,22 @@ class UserPageModel: NSObject {
         // ログインチェック
         let sessionStore = TWTRTwitter.sharedInstance().sessionStore
         if let session = sessionStore.session() {
-            TwitterAPIUtil.requestUserTimeLine(session.userID, userId,{twArray in
-                afterAction(twArray)
-            }, errorAction)
+            TwitterAPIUtil.requestUserTimeLine(session.userID,
+                                               userId,
+                                               "",
+                                               {twArray in afterAction(twArray)},
+                                               errorAction)
             return
         }
         
         // 初回ログイン
         TWTRTwitter.sharedInstance().logIn { session, error in
             if let session = session {
-                TwitterAPIUtil.requestUserTimeLine(session.userID,userId, {twArray in
-                    afterAction(twArray)
-                }, errorAction)
+                TwitterAPIUtil.requestUserTimeLine(session.userID,
+                                                   userId,
+                                                   "",
+                                                   {twArray in afterAction(twArray)},
+                                                   errorAction)
             }
             else if let error = error {
                 print("error: \(error.localizedDescription)")

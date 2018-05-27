@@ -20,6 +20,8 @@ class UserPageViewController: UIViewController {
         super.viewDidLoad()
         
         self.navigationItem.title = self.user.base?.name
+        //空白行のラインを消す
+        self.tableView.tableFooterView = UIView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
