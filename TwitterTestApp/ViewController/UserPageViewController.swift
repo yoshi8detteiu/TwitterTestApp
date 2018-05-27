@@ -46,7 +46,6 @@ class UserPageViewController: UIViewController {
         self.tableView.register(UINib(nibName: "UserViewCell", bundle: nil), forCellReuseIdentifier: "UserViewCell")
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
         self.tableView.register(UINib(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
-        self.tableView.estimatedRowHeight = 78
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.tableView.dataSourceNumberOfRowsInSection = {section in

@@ -17,18 +17,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="anI-gb-Max" customClass="LambdaTableView" customModule="TwitterTestApp" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="anI-gb-Max" customClass="LambdaTableView" customModule="TwitterTestApp" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="anI-gb-Max" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Gdn-oD-NMp"/>
+                            <constraint firstItem="anI-gb-Max" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ph5-gB-iT0"/>
+                            <constraint firstItem="anI-gb-Max" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XQr-ds-rbw"/>
+                            <constraint firstItem="anI-gb-Max" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dbW-2C-Zvb"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="ホーム" id="yU9-gt-C10">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="more.png" width="44" id="v7M-xF-mTs">
                             <color key="tintColor" red="0.015686274509803921" green="0.20000000000000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="pushMoreButton:" destination="BYZ-38-t0r" id="AlO-0L-Bf2"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

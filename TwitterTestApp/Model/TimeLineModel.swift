@@ -34,4 +34,22 @@ class TimeLineModel: NSObject {
             }
         }
     }
+    
+    func logout() {
+ 
+        let sessionStore = TWTRTwitter.sharedInstance().sessionStore
+        
+        // アクティブなアカウントのsessionを取得
+        if let session = sessionStore.session() {
+            // userIDでログアウト
+            sessionStore.logOutUserID(session.userID)
+        }
+    }
+    
+    func isLogin() -> Bool {
+        let sessionStore = TWTRTwitter.sharedInstance().sessionStore
+        return sessionStore.session() != nil
+    }
+    
+    
 }

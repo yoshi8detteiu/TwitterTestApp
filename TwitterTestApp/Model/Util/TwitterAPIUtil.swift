@@ -58,6 +58,30 @@ class TwitterAPIUtil: NSObject {
         }
     }
     
+    static func requestSearch(_ sessionUserId: String, _ searchText: String, _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
+        
+        var clientError: NSError?
+        
+        let apiClient = TWTRAPIClient(userID: sessionUserId)
+        let request = apiClient.urlRequest(withMethod: "GET",
+                                           urlString: "https://api.twitter.com/1.1/search/tweets.json",
+                                           parameters: ["q": searchText,
+                                                        "count": "50"],
+                                           error: &clientError)
+        
+        
+        apiClient.sendTwitterRequest(request) { response, data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                errorAction("リクエストに失敗しました")
+            }
+            else if let data = data {
+                let tmArray = TwitterAPIUtil.convertSearchTweetModel(data)
+                afterAction(tmArray)
+            }
+        }
+    }
+    
     private static func convertTweet(_ data: Data) -> Array<TWTRTweet> {
         
         do {
@@ -76,32 +100,57 @@ class TwitterAPIUtil: NSObject {
      */
     private static func convertTweetModel(_ data: Data) -> Array<TweetModel> {
         
-        var tmArray = Array<TweetModel>()
-        
         do {
-            let json = try JSON(data: data)
+            let jsonArray = try JSON(data: data).array
             let twArray = TwitterAPIUtil.convertTweet(data)
-            for (index, value) in twArray.enumerated() {
-                let model = TweetModel()
-                model.base = value
-                model.authorModel.base = value.author
-                
-                let twJson = json.array?[index]
-                let autJson = twJson?["user"]
-                model.authorModel.linkUrl = URL(string:(autJson?["url"].stringValue)!)
-                model.authorModel.profileText = autJson?["description"].stringValue
-                model.authorModel.followCount = autJson?["friends_count"].intValue
-                model.authorModel.followerCount = autJson?["followers_count"].intValue
-                model.authorModel.backgroundImagePath = autJson?["profile_background_image_url"].stringValue
-                
-                tmArray.append(model)
-            }
+            return TwitterAPIUtil.convertTWTRTweetArrayToWeetModelArray(twArray, jsonArray!)
         }
         catch let jsonError as NSError {
             print("json error: \(jsonError.localizedDescription)")
         }
-        return tmArray
+        return Array<TweetModel>()
         
+    }
+    
+    private static func convertTWTRTweetArrayToWeetModelArray(_ twArray: Array<TWTRTweet>, _ jsonArray: [JSON] ) -> Array<TweetModel> {
+        
+        var tmArray = Array<TweetModel>()
+        
+        for (index, value) in twArray.enumerated() {
+            let model = TweetModel()
+            model.base = value
+            model.authorModel.base = value.author
+            
+            let twJson = jsonArray[index]
+            let autJson = twJson["user"]
+            model.authorModel.linkUrl = URL(string:(autJson["url"].stringValue))
+            model.authorModel.profileText = autJson["description"].stringValue
+            model.authorModel.followCount = autJson["friends_count"].intValue
+            model.authorModel.followerCount = autJson["followers_count"].intValue
+            model.authorModel.backgroundImagePath = autJson["profile_background_image_url"].stringValue
+            
+            tmArray.append(model)
+        }
+        return tmArray
+    }
+    
+    private static func convertSearchTweetModel(_ data:Data) -> Array<TweetModel> {
+    
+        do {
+            let dic = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            let array = dic?["statuses"] as! Array<Any>
+            let twArray = TWTRTweet.tweets(withJSONArray: array) as! [TWTRTweet]
+            
+            let json = try JSON(data: data)
+            let jsonArray = json["statuses"].array!
+            
+            return TwitterAPIUtil.convertTWTRTweetArrayToWeetModelArray(twArray, jsonArray)
+        }
+        catch let jsonError as NSError {
+            print("json error: \(jsonError.localizedDescription)")
+        }
+        return Array<TweetModel>()
+    
     }
     
 }
