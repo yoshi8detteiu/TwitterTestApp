@@ -7,10 +7,11 @@ target 'TwitterTestApp' do
 
   pod 'TwitterKit'
   pod 'AlamofireImage'
+  pod "SwiftyJSON"
 
-  pod 'AFNetworking'
-  pod 'RealmSwift'
-  pod 'RxSwift'
-  pod 'RxCocoa'
+#  pod 'AFNetworking'
+#  pod 'RealmSwift'
+#  pod 'RxSwift'
+#  pod 'RxCocoa'
 
 end

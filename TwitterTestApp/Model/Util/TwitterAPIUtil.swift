@@ -7,19 +7,43 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class TwitterAPIUtil: NSObject {
     
-    static func requestHomeTimeLine(_ userId: String, _ afterAction:@escaping (Array<TWTRTweet>) -> Void, _ errorAction:@escaping (String) -> Void) {
+    static func requestHomeTimeLine(_ sessionUserId: String ,_ afterAction:@escaping (Array<TWTRTweet>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
         var clientError: NSError?
         
-        let apiClient = TWTRAPIClient(userID: userId)
+        let apiClient = TWTRAPIClient(userID: sessionUserId)
         let request = apiClient.urlRequest(withMethod: "GET",
                                            urlString: "https://api.twitter.com/1.1/statuses/home_timeline.json",
+                                           parameters: ["count": "50"],
+                                           error: &clientError)
+        
+        
+        apiClient.sendTwitterRequest(request) { response, data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                errorAction("リクエストに失敗しました")
+            }
+            else if let data = data {
+                let tweetArray = TwitterAPIUtil.convertTweet(data)
+                afterAction(tweetArray)
+            }
+        }
+    }
+    
+    static func requestUserTimeLine(_ sessionUserId: String, _ userId: String, _ afterAction:@escaping (Array<TWTRTweet>) -> Void, _ errorAction:@escaping (String) -> Void) {
+        
+        var clientError: NSError?
+        
+        let apiClient = TWTRAPIClient(userID: sessionUserId)
+        let request = apiClient.urlRequest(withMethod: "GET",
+                                           urlString: "https://api.twitter.com/1.1/statuses/user_timeline.json",
                                            parameters: ["user_id": userId,
-                                                        "count": "50",], // Intで渡すとエラー
-            error: &clientError)
+                                                        "count": "50"],
+                                           error: &clientError)
         
         
         apiClient.sendTwitterRequest(request) { response, data, error in

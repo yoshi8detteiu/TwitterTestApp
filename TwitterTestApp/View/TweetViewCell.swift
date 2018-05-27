@@ -13,6 +13,7 @@ class TweetViewCell: UITableViewCell {
     @IBOutlet weak var authorIconImageView: CircleImageView!
     @IBOutlet weak var authorNameLabel: UILabel!
     @IBOutlet weak var tweetLabel: UILabel!
+    @IBOutlet weak var tweetImageView: UIImageView!
     
     var pushedIconButton: ((_ sender: Any) -> Void)?
     
