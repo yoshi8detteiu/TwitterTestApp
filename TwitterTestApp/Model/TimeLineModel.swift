@@ -10,7 +10,7 @@ import Foundation
 
 class TimeLineModel: NSObject {
         
-    func loadTimeLine(_ afterAction:@escaping (Array<TWTRTweet>) -> Void, _ errorAction:@escaping (String) -> Void) {
+    func loadTimeLine(_ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
         // ログインチェック
         let sessionStore = TWTRTwitter.sharedInstance().sessionStore

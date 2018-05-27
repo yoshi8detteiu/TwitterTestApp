@@ -31,7 +31,7 @@ class TimeLineViewController: UIViewController {
             })
     }
     
-    private func loadTimeLineTableView(_ twArray: Array<TWTRTweet>) {
+    private func loadTimeLineTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
         self.tableView.register(UINib(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
@@ -54,14 +54,22 @@ class TimeLineViewController: UIViewController {
             let cell = self?.tableView.dequeueReusableCell(withIdentifier: "TweetViewCell", for: indexPath) as! TweetViewCell
             
             let tweet = twArray[indexPath.row]
-            cell.tweetLabel.text      = tweet.text
-            cell.authorNameLabel.text = tweet.author.name
-            cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.author.profileImageURL)!)
+            cell.tweetLabel.text      = tweet.base?.text
+            cell.authorNameLabel.text = tweet.authorModel.base!.name
+            cell.screenNameLabel.text = "@" + tweet.authorModel.base!.screenName
+            
+            let formatter = DateFormatter()
+            formatter.dateFormat = "d日 H:mm"
+            formatter.locale = Locale(identifier: "ja_JP")
+            cell.dateLabel.text = formatter.string(from: tweet.base!.createdAt)
+            
+            cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
+            
             cell.pushedIconButton = {[weak self] sender in
                 // タップされたユーザのページへ
                 let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
                 let nextView  = storyboard.instantiateInitialViewController() as! UserPageViewController
-                nextView.user = tweet.author
+                nextView.user = tweet.authorModel
                 self?.navigationController?.pushViewController(nextView, animated: true)
             }
             cell.layoutIfNeeded()

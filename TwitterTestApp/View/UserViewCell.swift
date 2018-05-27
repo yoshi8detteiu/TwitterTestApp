@@ -10,6 +10,7 @@ import UIKit
 
 class UserViewCell: UITableViewCell {
 
+    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var userImageView: CircleImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!

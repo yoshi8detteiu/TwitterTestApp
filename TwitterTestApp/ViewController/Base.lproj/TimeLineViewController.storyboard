@@ -26,7 +26,11 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="ホーム" id="yU9-gt-C10"/>
+                    <navigationItem key="navigationItem" title="ホーム" id="yU9-gt-C10">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="more.png" width="44" id="v7M-xF-mTs">
+                            <color key="tintColor" red="0.015686274509803921" green="0.20000000000000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="anI-gb-Max" id="VMk-aF-ic6"/>
                     </connections>
@@ -54,4 +58,7 @@
             <point key="canvasLocation" x="-130.40000000000001" y="-695.80209895052474"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="more.png" width="31" height="6"/>
+    </resources>
 </document>
