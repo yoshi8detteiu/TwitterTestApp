@@ -66,7 +66,6 @@ class UserPageViewController: UIViewController {
         self.tableView.register(UINib(nibName: "UserViewCell", bundle: nil), forCellReuseIdentifier: "UserViewCell")
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
         self.tableView.register(UINib(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
-        self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.tableView.dataSourceNumberOfRowsInSection = {section in
             if section == Section.user.rawValue {
@@ -84,6 +83,10 @@ class UserPageViewController: UIViewController {
         
         self.tableView.delegateHeightRowAt = { indexPath in
             return  UITableViewAutomaticDimension
+        }
+        
+        self.tableView.delegateEstimatedHeightForRowAt = { indexPath in
+            return 100
         }
         
         self.tableView.dataSourceCellForRowAt = {[weak self] indexPath in
