@@ -13,6 +13,7 @@ import Speech
 class TimeLineModel: NSObject {
     
     private var isLoading = false
+    private var noMore = false
     
     func loadTimeLine(_ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
@@ -67,11 +68,21 @@ class TimeLineModel: NSObject {
     
     func moreTimeLine(_ maxId:String, _ afterAction:@escaping (Array<TweetModel>) -> Void, _ errorAction:@escaping (String) -> Void) {
         
-        if self.isLoading { return }
+        if self.isLoading || self.noMore { return }
         
         let afterTask:((Array<TweetModel>) -> Void) = { [weak self] twArray in
             self?.isLoading = false
-            afterAction(twArray)
+            // maxIdのtweetも混ざるので削除
+            var twArray = twArray
+            twArray.remove(at: 0)
+            if twArray.count > 0  {
+                afterAction(twArray)
+            }
+            else {
+                // 古いツイートはないので打止
+                // MEMO: 投稿や更新後にfalseにすべき
+                self?.noMore = true
+            }
         }
         
         let errorTask:((String) -> Void) = { [weak self] message in

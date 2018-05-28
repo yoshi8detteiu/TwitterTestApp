@@ -99,9 +99,9 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             let currentOffsetY = (self?.tableView.contentOffset.y)!
             let maximumOffset = (self?.tableView.contentSize.height)! - (self?.tableView.frame.height)!
             let distanceToBottom = maximumOffset - currentOffsetY
-            if distanceToBottom < 100 {
-                // TODO: 無限スクロール
-//                self?.moreTimeLineView(twArray)
+            if distanceToBottom < 300 {
+                // 無限スクロール
+                self?.moreTimeLineView(twArray)
             }
         }
         
@@ -109,6 +109,8 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
     }
     
     private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
+        
+        if oldTwArray.count == 0 { return}
         
         let maxId = oldTwArray.last?.base?.tweetID
         self.model.moreTimeLine(maxId!,
@@ -120,9 +122,9 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
                 self?.tableView.layoutIfNeeded()
                 self?.tableView.contentOffset = offset!
             },
-            { message in
-                //TODO: アラート
-        })
+            {[weak self] message in
+                self?.showAlert(message)
+            })
     }
     
     @objc func refreshControlValueChanged(sender: UIRefreshControl) {

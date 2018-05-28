@@ -102,6 +102,17 @@ class UserPageViewController: UIViewController {
             return UITableViewCell()
         }
         
+        self.tableView.delegateScrollDidScroll = { [weak self] in
+            
+            let currentOffsetY = (self?.tableView.contentOffset.y)!
+            let maximumOffset = (self?.tableView.contentSize.height)! - (self?.tableView.frame.height)!
+            let distanceToBottom = maximumOffset - currentOffsetY
+            if distanceToBottom < 300 {
+                // 無限スクロール
+                self?.moreTimeLineView(twArray)
+            }
+        }
+        
         self.tableView.reloadData()
     }
     
@@ -172,6 +183,26 @@ class UserPageViewController: UIViewController {
         self.loadUserPageView()
         // ローディングを終了
         sender.endRefreshing()
+    }
+    
+    private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
+        
+        if oldTwArray.count == 0 { return}
+        
+        let maxId = oldTwArray.last?.base?.tweetID
+        self.model.moreTimeLine(self.user.base!.userID,
+                                maxId!,
+                                {[weak self] twArray in
+                                    let newTwArray = oldTwArray + twArray
+                                    // reloadDataでoffsetがリセットされないように
+                                    let offset = self?.tableView.contentOffset
+                                    self?.loadTableView(newTwArray)
+                                    self?.tableView.layoutIfNeeded()
+                                    self?.tableView.contentOffset = offset!
+                                },
+                                {[weak self] message in
+                                    self?.showAlert(message)
+                                })
     }
     
     private func showAlert(_ message:String) {
