@@ -13,6 +13,7 @@ class UserPageViewController: UIViewController {
     var user:UserModel!
     
     @IBOutlet weak var tableView: LambdaTableView!
+    @IBOutlet weak var tweetButton: UIButton!
     
     private var model:UserPageModel = UserPageModel()
     
@@ -31,8 +32,17 @@ class UserPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.loadUserPageView()
+        
+        // Tweetボタンの出現
+        self.tweetButton.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                            self?.tweetButton.transform = CGAffineTransform.identity
+                        },
+                       completion: nil)
     }
 
     private func loadUserPageView() {
@@ -169,6 +179,16 @@ class UserPageViewController: UIViewController {
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func pushTweetButton(_ sender: Any) {
+        let composer = TWTRComposer()
+        composer.show(from:self, completion: {[weak self] result in
+            if result == TWTRComposerResult.done {
+                self?.loadUserPageView()
+            }
+        })
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

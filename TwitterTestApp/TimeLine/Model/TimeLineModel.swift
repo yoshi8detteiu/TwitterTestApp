@@ -111,4 +111,5 @@ class TimeLineModel: NSObject {
         let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
         guard (try? handler.perform([request])) != nil else { return }
     }
+    
 }

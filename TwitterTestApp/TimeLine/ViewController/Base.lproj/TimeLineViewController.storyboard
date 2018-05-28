@@ -21,11 +21,35 @@
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WKt-UV-EDa">
+                                <rect key="frame" x="224" y="472" width="68" height="68"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="90g-52-eBg">
+                                        <rect key="frame" x="0.0" y="0.0" width="68" height="68"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="68" id="9E7-Yd-yuC"/>
+                                            <constraint firstAttribute="width" constant="68" id="CGM-T5-Mnq"/>
+                                        </constraints>
+                                        <state key="normal" image="tweetbtn.png"/>
+                                        <connections>
+                                            <action selector="pushTweetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GB3-ck-k2p"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="90g-52-eBg" firstAttribute="centerY" secondItem="WKt-UV-EDa" secondAttribute="centerY" id="7Vz-Ta-VsM"/>
+                                    <constraint firstAttribute="width" constant="68" id="9DT-Mx-hs6"/>
+                                    <constraint firstItem="90g-52-eBg" firstAttribute="centerX" secondItem="WKt-UV-EDa" secondAttribute="centerX" id="ZXy-kt-YsL"/>
+                                    <constraint firstAttribute="height" constant="68" id="gi8-14-FMC"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="WKt-UV-EDa" secondAttribute="bottom" constant="28" id="6pe-KQ-YM6"/>
                             <constraint firstItem="anI-gb-Max" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Gdn-oD-NMp"/>
                             <constraint firstItem="anI-gb-Max" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Ph5-gB-iT0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="WKt-UV-EDa" secondAttribute="trailing" constant="28" id="Rpz-Tl-ab1"/>
                             <constraint firstItem="anI-gb-Max" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="XQr-ds-rbw"/>
                             <constraint firstItem="anI-gb-Max" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="dbW-2C-Zvb"/>
                         </constraints>
@@ -41,6 +65,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="anI-gb-Max" id="VMk-aF-ic6"/>
+                        <outlet property="tweetButton" destination="90g-52-eBg" id="sFw-8x-dPv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -68,5 +93,6 @@
     </scenes>
     <resources>
         <image name="more.png" width="31" height="6"/>
+        <image name="tweetbtn.png" width="216" height="216"/>
     </resources>
 </document>

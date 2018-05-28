@@ -12,6 +12,7 @@ import AlamofireImage
 class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var tableView: LambdaTableView!
+    @IBOutlet weak var tweetButton: UIButton!
     
     private let model:TimeLineModel = TimeLineModel()
     
@@ -29,6 +30,16 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadTimeLineView()
+        
+        // Tweetボタンの出現
+        self.tweetButton.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                            self?.tweetButton.transform = CGAffineTransform.identity
+                        },
+                       completion: nil)
     }
     
     private func loadTimeLineView() {
@@ -74,11 +85,7 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
             
             cell.pushedIconButton = {[weak self] sender in
-                // タップされたユーザのページへ
-                let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
-                let nextView  = storyboard.instantiateInitialViewController() as! UserPageViewController
-                nextView.user = tweet.authorModel
-                self?.navigationController?.pushViewController(nextView, animated: true)
+                self?.presentUserPage(tweet)
             }
             cell.layoutIfNeeded()
             return cell
@@ -158,7 +165,7 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         
         self.present(actionSheet, animated: true, completion: nil)
     }
-    
+
     /** UIImagePickerControllerDelegate - キャンセルボタンを押された時に呼ばれる */
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
@@ -185,6 +192,32 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         })
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func pushTweetButton(_ sender: Any) {
+        let composer = TWTRComposer()
+        composer.show(from:self, completion: {[weak self] result in
+            if result == TWTRComposerResult.done {
+                self?.loadTimeLineView()
+            }
+        })
+    }
+    
+    private func presentUserPage(_ tweet:TweetModel) {
+        
+        UIView.animate(withDuration: 0.3,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                           self?.tweetButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                       },
+                       completion: {  [weak self] result in
+                            // タップされたユーザのページへ
+                            let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
+                            let nextView  = storyboard.instantiateInitialViewController() as! UserPageViewController
+                            nextView.user = tweet.authorModel
+                            self?.navigationController?.pushViewController(nextView, animated: true)
+                      })
     }
     
     override func didReceiveMemoryWarning() {

@@ -21,13 +21,37 @@
                                 <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ji0-il-II1">
+                                <rect key="frame" x="279" y="571" width="68" height="68"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ncN-Tz-76C">
+                                        <rect key="frame" x="0.0" y="0.0" width="68" height="68"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="68" id="9J4-h4-upC"/>
+                                            <constraint firstAttribute="height" constant="68" id="dK5-pn-72H"/>
+                                        </constraints>
+                                        <state key="normal" image="tweetbtn.png"/>
+                                        <connections>
+                                            <action selector="pushTweetButton:" destination="XY5-rl-SzG" eventType="touchUpInside" id="Mrw-mW-5ip"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="68" id="4FN-Ai-KDR"/>
+                                    <constraint firstItem="ncN-Tz-76C" firstAttribute="centerX" secondItem="ji0-il-II1" secondAttribute="centerX" id="ZVz-OE-WwB"/>
+                                    <constraint firstItem="ncN-Tz-76C" firstAttribute="centerY" secondItem="ji0-il-II1" secondAttribute="centerY" id="a9s-hk-I70"/>
+                                    <constraint firstAttribute="width" constant="68" id="zvV-4c-LPv"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="5s3-wz-03w" firstAttribute="bottom" secondItem="ji0-il-II1" secondAttribute="bottom" constant="28" id="Dr3-IX-ngm"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="bottom" secondItem="5s3-wz-03w" secondAttribute="bottom" id="QU6-It-09B"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="leading" secondItem="5s3-wz-03w" secondAttribute="leading" id="Ufd-ug-8cU"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="top" secondItem="5s3-wz-03w" secondAttribute="top" id="jrR-oC-RPK"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="trailing" secondItem="5s3-wz-03w" secondAttribute="trailing" id="oih-JX-BAC"/>
+                            <constraint firstItem="5s3-wz-03w" firstAttribute="trailing" secondItem="ji0-il-II1" secondAttribute="trailing" constant="28" id="pHf-Kw-fn2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5s3-wz-03w"/>
                     </view>
@@ -36,6 +60,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="2wl-zs-vPE" id="Jmt-cM-sYd"/>
+                        <outlet property="tweetButton" destination="ncN-Tz-76C" id="dEg-Ad-GVw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="61o-ri-Pge" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -43,4 +68,7 @@
             <point key="canvasLocation" x="-663.20000000000005" y="141.67916041979012"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tweetbtn.png" width="216" height="216"/>
+    </resources>
 </document>
