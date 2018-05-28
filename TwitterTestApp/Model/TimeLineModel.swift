@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Vision
 
 class TimeLineModel: NSObject {
     
@@ -85,5 +86,29 @@ class TimeLineModel: NSObject {
         else {
             errorAction("再ログインしてください")
         }
+    }
+    
+    func analyzeImage(_ image:UIImage, _ afterAction:@escaping (String) -> Void) {
+        
+        // MobileNet(MLModel) を VNCoreMLModelに変換
+        guard let coreMLModel = try? VNCoreMLModel(for: MobileNet().model) else { return }
+        
+        let request = VNCoreMLRequest(model: coreMLModel) { request, error in
+            // results は confidence の高い（そのオブジェクトである可能性が高い）
+            // 順番に sort された Array で返ってきます
+            guard let results = request.results as? [VNClassificationObservation] else { return }
+            
+            if let classification = results.first {
+                let idtext = classification.identifier
+                afterAction(idtext)
+            }
+        }
+        
+        // UIImage -> CIImage
+        guard let ciImage = CIImage(image: image) else { return }
+        
+        // VNImageRequestHandlerを作成し、performを実行
+        let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
+        guard (try? handler.perform([request])) != nil else { return }
     }
 }

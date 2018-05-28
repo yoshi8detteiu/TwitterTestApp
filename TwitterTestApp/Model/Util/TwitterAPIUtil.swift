@@ -32,7 +32,7 @@ class TwitterAPIUtil: NSObject {
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {
                 print(error.localizedDescription)
-                errorAction("リクエストに失敗しました")
+                errorAction("リクエストに失敗しました。リクエスト上限に達した可能性があります。")
             }
             else if let data = data {
                 let tmArray = TwitterAPIUtil.convertTweetModel(data)
@@ -65,7 +65,7 @@ class TwitterAPIUtil: NSObject {
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {
                 print(error.localizedDescription)
-                errorAction("リクエストに失敗しました")
+                errorAction("リクエストに失敗しました。リクエスト上限に達した可能性があります。")
             }
             else if let data = data {
                 let tmArray = TwitterAPIUtil.convertTweetModel(data)
@@ -97,7 +97,7 @@ class TwitterAPIUtil: NSObject {
         apiClient.sendTwitterRequest(request) { response, data, error in
             if let error = error {
                 print(error.localizedDescription)
-                errorAction("リクエストに失敗しました")
+                errorAction("リクエストに失敗しました。リクエスト上限に達した可能性があります。")
             }
             else if let data = data {
                 let tmArray = TwitterAPIUtil.convertSearchTweetModel(data)

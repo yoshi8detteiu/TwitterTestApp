@@ -22,26 +22,34 @@ class UserPageViewController: UIViewController {
         self.navigationItem.title = self.user.base?.name
         //空白行のラインを消す
         self.tableView.tableFooterView = UIView()
+        // RefreshControlのセット
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(hex: 0x1DA1F2)
+        refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.loadUserPageView()
+    }
+
+    private func loadUserPageView() {
         self.model.loadUserTimeLine(self.user.base!.userID,
-            {[weak self] twArray in
-                self?.loadTableView(twArray)
-            },
-            { message in
-                //TODO: アラート
-            })
+                                    {[weak self] twArray in
+                                        self?.loadTableView(twArray)
+                                        },
+                                     {[weak self] message in
+                                        self?.showAlert(message)
+                                    })
     }
     
     private enum Section: Int {
         case user  = 0
         case tweet = 1
-        
     }
-    
+
     private func loadTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(UserViewCell.self, forCellReuseIdentifier: "UserViewCell")
@@ -145,6 +153,21 @@ class UserPageViewController: UIViewController {
         }
         cell.layoutIfNeeded()
         return cell
+    }
+    
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadUserPageView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
+    
+    private func showAlert(_ message:String) {
+        let alert = UIAlertController(title: "エラーです", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let close = UIAlertAction(title: "閉じる", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
+            
+        })
+        alert.addAction(close)
+        self.present(alert, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {

@@ -15,43 +15,35 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     private var model:SearchModel = SearchModel()
     
+    var searchText:String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //空白行のラインを消す
         self.tableView.tableFooterView = UIView()
-        // カメラロール起動
-        let c = UIImagePickerController()
-        c.delegate = self
-        present(c, animated: true)
+        // 検索対象をNavigationTitleへ
+        self.navigationItem.title = self.searchText
+        // RefreshControlのセット
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(hex: 0x1DA1F2)
+        refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
+        self.tableView.addSubview(refreshControl)
     }
     
-    /** UIImagePickerControllerDelegate - キャンセルボタンを押された時に呼ばれる */
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-        self.dismiss(animated: true, completion: nil)
-    }
-    /** UIImagePickerControllerDelegate - 写真が選択された時に呼ばれる */
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.model.analyzeImage(image!, {idtext in
-            // 解析結果をNavigationTitleへ
-            self.navigationItem.title = idtext
-            self.loadTimeLineView(idtext)
-        })
-        
-        //閉じる
-        picker.dismiss(animated: true, completion: nil)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.loadSearchView()
     }
     
-    private func loadTimeLineView(_ text: String) {
-        self.model.searchTweets(text,
-            {[weak self] twArray in
-                self?.loadTableView(twArray)
-            },
-            { message in
-                //TODO: アラート
-        })
+    private func loadSearchView() {
+        
+        self.model.searchTweets(self.searchText,
+                                {[weak self] twArray in
+                                    self?.loadTableView(twArray)
+                                },
+                                {[weak self] message in
+                                    self?.showAlert(message)
+                                })
     }
     
     private func loadTableView(_ twArray: Array<TweetModel>) {
@@ -101,8 +93,21 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.tableView.reloadData()
     }
     
-    
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadSearchView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
 
+    private func showAlert(_ message:String) {
+        let alert = UIAlertController(title: "エラーです", message: message, preferredStyle: UIAlertControllerStyle.alert)
+        let close = UIAlertAction(title: "閉じる", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
+            
+        })
+        alert.addAction(close)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

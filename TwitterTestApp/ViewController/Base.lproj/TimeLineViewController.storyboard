@@ -33,7 +33,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="ホーム" id="yU9-gt-C10">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="more.png" width="44" id="v7M-xF-mTs">
-                            <color key="tintColor" red="0.015686274509803921" green="0.20000000000000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="0.11372549019607843" green="0.63137254901960782" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <action selector="pushMoreButton:" destination="BYZ-38-t0r" id="AlO-0L-Bf2"/>
                             </connections>
