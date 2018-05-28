@@ -8,6 +8,7 @@
 
 import Foundation
 import Vision
+import Speech
 
 class TimeLineModel: NSObject {
     
@@ -110,6 +111,83 @@ class TimeLineModel: NSObject {
         // VNImageRequestHandlerを作成し、performを実行
         let handler = VNImageRequestHandler(ciImage: ciImage, options: [:])
         guard (try? handler.perform([request])) != nil else { return }
+    }
+    
+
+    private let speechRecognizer = SFSpeechRecognizer(locale: Locale(identifier: "ja-JP"))!
+    private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
+    private var recognitionTask: SFSpeechRecognitionTask?
+    private let audioEngine = AVAudioEngine()
+    
+    func startRecording(_ recognizingAction:@escaping (String) -> Void, _ finishAction:@escaping () -> Void, _ errorAction:@escaping (Error) -> Void) throws {
+
+        //refreshTask
+        if let rTask = self.recognitionTask {
+            rTask.cancel()
+            self.recognitionTask = nil
+        }
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        // 録音用のカテゴリをセット
+        try audioSession.setCategory(AVAudioSessionCategoryRecord)
+        try audioSession.setMode(AVAudioSessionModeMeasurement)
+        try audioSession.setActive(true, with: .notifyOthersOnDeactivation)
+        
+        self.recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
+        
+        guard let rRequest = self.recognitionRequest else { fatalError("Unable to created a SFSpeechAudioBufferRecognitionRequest object") }
+        
+        // 録音が完了する前のリクエストを作るかどうかのフラグ。
+        // trueだと現在-1回目のリクエスト結果が返ってくる模様。falseだとボタンをオフにしたときに音声認識の結果が返ってくる設定。
+        self.recognitionRequest?.shouldReportPartialResults = true
+        
+        self.recognitionTask = self.speechRecognizer.recognitionTask(with: rRequest) { [weak self] result, error in
+
+            var isFinal = false
+            
+            if let result = result {
+                let resultText = result.bestTranscription.formattedString
+                recognizingAction(resultText)
+                isFinal = result.isFinal
+            }
+            else if let error = error {
+                errorAction(error)
+            }
+            
+            if isFinal {
+                finishAction()
+            }
+            
+            // エラーがある、もしくは最後の認識結果だった場合の処理
+            if error != nil || isFinal {
+                self?.audioEngine.stop()
+                self?.audioEngine.inputNode.removeTap(onBus: 0)
+                
+                self?.recognitionRequest = nil
+                self?.recognitionTask = nil
+                
+                self?.audioEngine.stop()
+                self?.recognitionRequest?.endAudio()
+            }
+        }
+        
+        // マイクから取得した音声バッファをリクエストに渡す
+        let recordingFormat = audioEngine.inputNode.outputFormat(forBus: 0)
+        self.audioEngine.inputNode.installTap(onBus: 0, bufferSize: 1024, format: recordingFormat) { [weak self] (buffer: AVAudioPCMBuffer, when: AVAudioTime) in
+            self?.recognitionRequest?.append(buffer)
+        }
+        
+        // startの前にリソースを確保しておく。
+        self.audioEngine.prepare()
+        try self.audioEngine.start()
+    }
+    
+    func stopRecording() {
+        
+        if self.audioEngine.isRunning {
+            self.audioEngine.stop()
+            self.recognitionRequest?.endAudio()
+        }
     }
     
 }
