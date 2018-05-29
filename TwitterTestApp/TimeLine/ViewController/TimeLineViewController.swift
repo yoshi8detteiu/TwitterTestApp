@@ -235,7 +235,20 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         }
         
         self.speechRecognizingView.show(true)
+        
+        var isFinished = false
+        
         self.speechRecognizingView.pushedFinishButton = {[weak self] sender in
+            isFinished = true
+            self?.model.stopRecording()
+            self?.speechRecognizingView.show(false)
+            self?.showTweetEntry(speechText)
+        }
+        
+        // 10秒後に終了
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) { [weak self] in
+            if isFinished { return }
+            
             self?.model.stopRecording()
             self?.speechRecognizingView.show(false)
             self?.showTweetEntry(speechText)

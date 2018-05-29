@@ -34,15 +34,15 @@
                                 <wkPreferences key="preferences"/>
                             </wkWebViewConfiguration>
                         </wkWebView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweetするメッセージを解析中です" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub3-ml-RO4">
-                            <rect key="frame" x="27.5" y="120" width="225" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweetするメッセージを話してください" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub3-ml-RO4">
+                            <rect key="frame" x="13.5" y="120" width="253.5" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgQ-vr-EIW">
-                            <rect key="frame" x="104" y="152.5" width="72" height="30"/>
-                            <state key="normal" title="Tweetする"/>
+                            <rect key="frame" x="79" y="152.5" width="123" height="30"/>
+                            <state key="normal" title="解析して確認する"/>
                             <connections>
                                 <action selector="pushFinishButton:" destination="-1" eventType="touchUpInside" id="2bg-Bw-tMZ"/>
                             </connections>
