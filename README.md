@@ -11,6 +11,7 @@ Twitterクライアントアプリとして以下の機能を有しています
 - 画像解析(CoreML)を使ったTweet検索
 - Tweetの投稿
 - 無限スクロール
+- 音声認識を用いたTweetの投稿
 
 ***DEMO:***
 
@@ -20,8 +21,15 @@ TBD
 ## Features
 
 - 画像解析(CoreML)を使ったTweet検索
-- UI
+- UI/UX
 - チーム開発を前提とした疎結合設計
+- 音声認識を用いたTweetの投稿
+
+
+## Recommended Operating Environment
+
+iPhone8 Plus iOS11.2 (Simurator)
+XCode 9.3.1
 
 ## Requirement
 
@@ -39,7 +47,7 @@ TBD
 CleanArchtectureは規模的に不適切でしたので、CocoaMVCを採用しています。
 Storyboardは、重さ対策、複数人で実装する際のコンフリクト防止、画面間の密結合防止のため、画面単位で実装しています。
 
-<追加要件>
+<追加機能>
 - Tweet情報の追加(ScreenName、日時、プロフィールリンク、フォロー&フォロワー数)
 - CoreMLのVisionを使った画像解析twitter検索
 - ログアウト
@@ -49,6 +57,8 @@ Storyboardは、重さ対策、複数人で実装する際のコンフリクト�
 - アイコン&スプラッシュ
 - Tweetの投稿
 - 無限スクロール
+- 音声認識(SFSpeechRecognizer)を用いたTweetの投稿
+- 音声認識時の表示されるジェネレーティブなオブジェクト(HTMLCanvasとProcessing.jsを使用)
 
 ## Author
 
