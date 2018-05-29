@@ -13,6 +13,8 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
 
     @IBOutlet weak var tableView: LambdaTableView!
     @IBOutlet weak var tweetButton: UIButton!
+    var speechRecognizingView: SpeechRecognizingView!
+    
     
     private let model:TimeLineModel = TimeLineModel()
     
@@ -20,11 +22,16 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         super.viewDidLoad()
         //空白行のラインを消す
         self.tableView.tableFooterView = UIView()
-        
+        // 引張更新
         let refreshControl = UIRefreshControl()
         refreshControl.tintColor = UIColor(hex: 0x1DA1F2)
         refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
+        // 録音時View
+        let rect = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
+        self.speechRecognizingView = SpeechRecognizingView(frame: rect)
+        self.navigationController?.view.addSubview(self.speechRecognizingView)
+        self.speechRecognizingView.isHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -143,23 +150,23 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             c.delegate = self
             self?.present(c, animated: true)
         })
-        
+        let speech = UIAlertAction(title: "音声でツイート", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            self?.showSpeecingView()
+        })
         let logout = UIAlertAction(title: "ログアウト", style: UIAlertActionStyle.destructive, handler: {[weak self] (action: UIAlertAction!) in
             self?.model.logout()
             // ログアウト後に再ログイン
             self?.loadTimeLineView()
         })
-        
         let login = UIAlertAction(title: "ログイン", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
             self?.loadTimeLineView()
         })
-        
         let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
             
         })
         
-        
         actionSheet.addAction(search)
+        actionSheet.addAction(speech)
         if (self.model.isLogin()) {
             actionSheet.addAction(logout)
         }
@@ -199,8 +206,54 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         self.present(alert, animated: true, completion: nil)
     }
     
+    private func showSpeecingView() {
+        
+        var speechText = ""
+        do {
+            try self.model.startRecording(
+            { text in
+                /* recording */
+                speechText = text
+            },
+            {[weak self] in
+                /* finished */
+                self?.model.stopRecording()
+                self?.speechRecognizingView.show(false)
+            },
+            {[weak self] error in
+                print("error: \(error.localizedDescription)")
+                if speechText.isEmpty {
+                    self?.speechRecognizingView.isHidden = true
+                    self?.showAlert("失敗しました")
+                }
+            })
+        }
+        catch let error as NSError {
+            print("error: \(error.localizedDescription)")
+            self.speechRecognizingView.isHidden = true
+            self.showAlert("失敗しました")
+        }
+        
+        self.speechRecognizingView.show(true)
+        self.speechRecognizingView.pushedFinishButton = {[weak self] sender in
+            self?.model.stopRecording()
+            self?.speechRecognizingView.show(false)
+            self?.showTweetEntry(speechText)
+        }
+    }
+    
     @IBAction func pushTweetButton(_ sender: Any) {
+        self.showTweetEntry(nil)
+    }
+    
+    private func showTweetEntry(_ text:String?) {
+        
         let composer = TWTRComposer()
+        
+        if let text = text {
+            composer.setText(text)
+        }
+        
         composer.show(from:self, completion: {[weak self] result in
             if result == TWTRComposerResult.done {
                 self?.loadTimeLineView()
