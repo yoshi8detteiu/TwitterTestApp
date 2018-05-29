@@ -9,6 +9,8 @@ Twitterクライアントアプリとして以下の機能を有しています
 - Tweetの閲覧
 - ユーザ情報の閲覧
 - 画像解析(CoreML)を使ったTweet検索
+- Tweetの投稿
+- 無限スクロール
 
 ***DEMO:***
 
@@ -45,7 +47,8 @@ Storyboardは、重さ対策、複数人で実装する際のコンフリクト�
 - TweetをRefreshControlで更新
 - アラート
 - アイコン&スプラッシュ
-
+- Tweetの投稿
+- 無限スクロール
 
 ## Author
 
