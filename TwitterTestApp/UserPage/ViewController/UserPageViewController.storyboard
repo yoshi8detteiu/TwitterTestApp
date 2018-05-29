@@ -46,8 +46,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="2wl-zs-vPE" secondAttribute="bottom" id="CAv-mk-Ugf"/>
                             <constraint firstItem="5s3-wz-03w" firstAttribute="bottom" secondItem="ji0-il-II1" secondAttribute="bottom" constant="28" id="Dr3-IX-ngm"/>
-                            <constraint firstItem="2wl-zs-vPE" firstAttribute="bottom" secondItem="5s3-wz-03w" secondAttribute="bottom" id="QU6-It-09B"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="leading" secondItem="5s3-wz-03w" secondAttribute="leading" id="Ufd-ug-8cU"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="top" secondItem="5s3-wz-03w" secondAttribute="top" id="jrR-oC-RPK"/>
                             <constraint firstItem="2wl-zs-vPE" firstAttribute="trailing" secondItem="5s3-wz-03w" secondAttribute="trailing" id="oih-JX-BAC"/>

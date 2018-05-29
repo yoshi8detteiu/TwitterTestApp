@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3303011420BBED34005A38A5 /* icon_splach.png in Resources */ = {isa = PBXBuildFile; fileRef = 3303011320BBED33005A38A5 /* icon_splach.png */; };
+		3303012420BCEE16005A38A5 /* tweetbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 3303012320BCEE16005A38A5 /* tweetbtn.png */; };
 		332C1BDB20B7DF51000F12E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C1BDA20B7DF51000F12E1 /* AppDelegate.swift */; };
 		332C1BDD20B7DF51000F12E1 /* TimeLineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 332C1BDC20B7DF51000F12E1 /* TimeLineViewController.swift */; };
 		332C1BE020B7DF51000F12E1 /* TimeLineViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BDE20B7DF51000F12E1 /* TimeLineViewController.storyboard */; };
@@ -25,7 +26,6 @@
 		33AAB80120BA9D470045A560 /* SearchViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33AAB80020BA9D470045A560 /* SearchViewController.storyboard */; };
 		33AAB80320BAA4430045A560 /* SearchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AAB80220BAA4430045A560 /* SearchModel.swift */; };
 		33AAB80520BAE2430045A560 /* more.png in Resources */ = {isa = PBXBuildFile; fileRef = 33AAB80420BAE2400045A560 /* more.png */; };
-		33AAB80920BC42E60045A560 /* tweetbtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 33AAB80820BC42E60045A560 /* tweetbtn.png */; };
 		33B705D920B994CF0079FCB0 /* CircleImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705D820B994CF0079FCB0 /* CircleImageView.swift */; };
 		33B705DB20B9A5040079FCB0 /* TimeLineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705DA20B9A5040079FCB0 /* TimeLineModel.swift */; };
 		33B705DE20B9A5200079FCB0 /* TwitterAPIUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33B705DD20B9A5200079FCB0 /* TwitterAPIUtil.swift */; };
@@ -40,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		3303011320BBED33005A38A5 /* icon_splach.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_splach.png; sourceTree = "<group>"; };
+		3303012320BCEE16005A38A5 /* tweetbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tweetbtn.png; sourceTree = "<group>"; };
 		332C1BD720B7DF51000F12E1 /* TwitterTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwitterTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		332C1BDA20B7DF51000F12E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		332C1BDC20B7DF51000F12E1 /* TimeLineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineViewController.swift; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		33AAB80020BA9D470045A560 /* SearchViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SearchViewController.storyboard; sourceTree = "<group>"; };
 		33AAB80220BAA4430045A560 /* SearchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModel.swift; sourceTree = "<group>"; };
 		33AAB80420BAE2400045A560 /* more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = more.png; sourceTree = "<group>"; };
-		33AAB80820BC42E60045A560 /* tweetbtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tweetbtn.png; sourceTree = "<group>"; };
 		33B705D820B994CF0079FCB0 /* CircleImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImageView.swift; sourceTree = "<group>"; };
 		33B705DA20B9A5040079FCB0 /* TimeLineModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeLineModel.swift; sourceTree = "<group>"; };
 		33B705DD20B9A5200079FCB0 /* TwitterAPIUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterAPIUtil.swift; sourceTree = "<group>"; };
@@ -259,7 +259,7 @@
 		33B705E520B9BCBA0079FCB0 /* Asset */ = {
 			isa = PBXGroup;
 			children = (
-				33AAB80820BC42E60045A560 /* tweetbtn.png */,
+				3303012320BCEE16005A38A5 /* tweetbtn.png */,
 				3303011320BBED33005A38A5 /* icon_splach.png */,
 				33AAB7EC20BA40CE0045A560 /* link.png */,
 			);
@@ -357,7 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				33AAB80920BC42E60045A560 /* tweetbtn.png in Resources */,
+				3303012420BCEE16005A38A5 /* tweetbtn.png in Resources */,
 				332C1BE520B7DF56000F12E1 /* LaunchScreen.storyboard in Resources */,
 				33B705E420B9AD820079FCB0 /* UserPageViewController.storyboard in Resources */,
 				33AAB80520BAE2430045A560 /* more.png in Resources */,

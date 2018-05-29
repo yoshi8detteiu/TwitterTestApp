@@ -24,8 +24,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ivS-5q-D7W" firstAttribute="bottom" secondItem="ksQ-3g-2ue" secondAttribute="bottom" id="LsS-UQ-uig"/>
                             <constraint firstItem="ksQ-3g-2ue" firstAttribute="top" secondItem="ivS-5q-D7W" secondAttribute="top" id="c0e-re-2Fs"/>
+                            <constraint firstAttribute="bottom" secondItem="ksQ-3g-2ue" secondAttribute="bottom" id="d1K-bP-zkP"/>
                             <constraint firstItem="ksQ-3g-2ue" firstAttribute="trailing" secondItem="ivS-5q-D7W" secondAttribute="trailing" id="ecm-fo-Mgy"/>
                             <constraint firstItem="ksQ-3g-2ue" firstAttribute="leading" secondItem="ivS-5q-D7W" secondAttribute="leading" id="gOa-tm-fbi"/>
                         </constraints>
