@@ -169,11 +169,7 @@ class UserPageViewController: UIViewController {
         
         cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
         cell.pushedIconButton = {[weak self] sender in
-            // タップされたユーザのページへ
-            let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
-            let nextView  = storyboard.instantiateInitialViewController() as! UserPageViewController
-            nextView.user = tweet.authorModel
-            self?.navigationController?.pushViewController(nextView, animated: true)
+            self?.presentUserPage(tweet)
         }
         cell.layoutIfNeeded()
         return cell
@@ -223,6 +219,22 @@ class UserPageViewController: UIViewController {
         })
     }
 
+    private func presentUserPage(_ tweet:TweetModel) {
+        
+        UIView.animate(withDuration: 0.3,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                            self?.tweetButton.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
+                        },
+                       completion: {  [weak self] result in
+                            // タップされたユーザのページへ
+                            let storyboard: UIStoryboard = UIStoryboard(name: "UserPageViewController", bundle: nil)
+                            let nextView  = storyboard.instantiateInitialViewController() as! UserPageViewController
+                            nextView.user = tweet.authorModel
+                            self?.navigationController?.pushViewController(nextView, animated: true)
+                        })
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

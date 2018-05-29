@@ -106,13 +106,14 @@ class TimeLineModel: NSObject {
         guard let coreMLModel = try? VNCoreMLModel(for: MobileNet().model) else { return }
         
         let request = VNCoreMLRequest(model: coreMLModel) { request, error in
-            // results は confidence の高い（そのオブジェクトである可能性が高い）
-            // 順番に sort された Array で返ってきます
+            // results は confidence の高い（そのオブジェクトである可能性が高い）順番に sort された Array で返ってくる
             guard let results = request.results as? [VNClassificationObservation] else { return }
             
             if let classification = results.first {
                 let idtext = classification.identifier
-                afterAction(idtext)
+                // 複数あると検索に引っかからない場合があるため1つに絞る
+                let firstText = idtext.split(separator: ",")[0]
+                afterAction(String(firstText))
             }
         }
         

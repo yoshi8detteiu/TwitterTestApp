@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SpeechRecognizingView" customModule="TwitterTestApp" customModuleProvider="target">
+            <connections>
+                <outlet property="webView" destination="fiV-rs-qtS" id="U9V-zH-Iiq"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TgI-uf-4Ro" userLabel="PopView">
+                    <rect key="frame" x="47" y="233" width="280" height="200"/>
+                    <subviews>
+                        <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fiV-rs-qtS">
+                            <rect key="frame" x="100" y="24" width="80" height="80"/>
+                            <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="Dgl-sh-U1g"/>
+                                <constraint firstAttribute="height" constant="80" id="Gcf-7h-l8U"/>
+                            </constraints>
+                            <wkWebViewConfiguration key="configuration">
+                                <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                <wkPreferences key="preferences"/>
+                            </wkWebViewConfiguration>
+                        </wkWebView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweetするメッセージを話してください" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ub3-ml-RO4">
+                            <rect key="frame" x="13.5" y="120" width="253.5" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgQ-vr-EIW">
+                            <rect key="frame" x="79" y="152.5" width="123" height="30"/>
+                            <state key="normal" title="解析して確認する"/>
+                            <connections>
+                                <action selector="pushFinishButton:" destination="-1" eventType="touchUpInside" id="2bg-Bw-tMZ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="dgQ-vr-EIW" firstAttribute="centerX" secondItem="TgI-uf-4Ro" secondAttribute="centerX" id="Aj6-0t-gdi"/>
+                        <constraint firstAttribute="width" constant="280" id="Bpk-zQ-2B1"/>
+                        <constraint firstItem="fiV-rs-qtS" firstAttribute="centerX" secondItem="TgI-uf-4Ro" secondAttribute="centerX" id="HjJ-Uk-Rcx"/>
+                        <constraint firstItem="ub3-ml-RO4" firstAttribute="top" secondItem="fiV-rs-qtS" secondAttribute="bottom" constant="16" id="MYr-rc-ir0"/>
+                        <constraint firstItem="ub3-ml-RO4" firstAttribute="centerX" secondItem="TgI-uf-4Ro" secondAttribute="centerX" id="NAb-pj-43k"/>
+                        <constraint firstItem="dgQ-vr-EIW" firstAttribute="top" secondItem="ub3-ml-RO4" secondAttribute="bottom" constant="16" id="akO-JE-mai"/>
+                        <constraint firstAttribute="height" constant="200" id="gRg-ZR-DPA"/>
+                        <constraint firstItem="fiV-rs-qtS" firstAttribute="top" secondItem="TgI-uf-4Ro" secondAttribute="top" constant="24" id="pPr-sV-ZIS"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="20"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.25409353600000001" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="TgI-uf-4Ro" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="SGQ-AN-ID2"/>
+                <constraint firstItem="TgI-uf-4Ro" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="lbW-o2-fdg"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="24.5" y="51.5"/>
+        </view>
+    </objects>
+</document>
