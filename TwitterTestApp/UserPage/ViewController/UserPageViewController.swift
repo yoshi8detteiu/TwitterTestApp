@@ -13,6 +13,7 @@ class UserPageViewController: UIViewController {
     var user:UserModel!
     
     @IBOutlet weak var tableView: LambdaTableView!
+    @IBOutlet weak var tweetButton: UIButton!
     
     private var model:UserPageModel = UserPageModel()
     
@@ -31,8 +32,17 @@ class UserPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.loadUserPageView()
+        
+        // Tweetボタンの出現
+        self.tweetButton.transform = CGAffineTransform(scaleX: 0.0, y: 0.0)
+        UIView.animate(withDuration: 0.5,
+                       delay: 0.0,
+                       options: .curveEaseIn,
+                       animations: { [weak self] in
+                            self?.tweetButton.transform = CGAffineTransform.identity
+                        },
+                       completion: nil)
     }
 
     private func loadUserPageView() {
@@ -56,7 +66,6 @@ class UserPageViewController: UIViewController {
         self.tableView.register(UINib(nibName: "UserViewCell", bundle: nil), forCellReuseIdentifier: "UserViewCell")
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
         self.tableView.register(UINib(nibName: "TweetViewCell", bundle: nil), forCellReuseIdentifier: "TweetViewCell")
-        self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.tableView.dataSourceNumberOfRowsInSection = {section in
             if section == Section.user.rawValue {
@@ -76,6 +85,10 @@ class UserPageViewController: UIViewController {
             return  UITableViewAutomaticDimension
         }
         
+        self.tableView.delegateEstimatedHeightForRowAt = { indexPath in
+            return 100
+        }
+        
         self.tableView.dataSourceCellForRowAt = {[weak self] indexPath in
             
             if indexPath.section == Section.user.rawValue {
@@ -87,6 +100,17 @@ class UserPageViewController: UIViewController {
                 return tweetCell!
             }
             return UITableViewCell()
+        }
+        
+        self.tableView.delegateScrollDidScroll = { [weak self] in
+            
+            let currentOffsetY = (self?.tableView.contentOffset.y)!
+            let maximumOffset = (self?.tableView.contentSize.height)! - (self?.tableView.frame.height)!
+            let distanceToBottom = maximumOffset - currentOffsetY
+            if distanceToBottom < 300 {
+                // 無限スクロール
+                self?.moreTimeLineView(twArray)
+            }
         }
         
         self.tableView.reloadData()
@@ -161,6 +185,26 @@ class UserPageViewController: UIViewController {
         sender.endRefreshing()
     }
     
+    private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
+        
+        if oldTwArray.count == 0 { return}
+        
+        let maxId = oldTwArray.last?.base?.tweetID
+        self.model.moreTimeLine(self.user.base!.userID,
+                                maxId!,
+                                {[weak self] twArray in
+                                    let newTwArray = oldTwArray + twArray
+                                    // reloadDataでoffsetがリセットされないように
+                                    let offset = self?.tableView.contentOffset
+                                    self?.loadTableView(newTwArray)
+                                    self?.tableView.layoutIfNeeded()
+                                    self?.tableView.contentOffset = offset!
+                                },
+                                {[weak self] message in
+                                    self?.showAlert(message)
+                                })
+    }
+    
     private func showAlert(_ message:String) {
         let alert = UIAlertController(title: "エラーです", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let close = UIAlertAction(title: "閉じる", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
@@ -169,6 +213,16 @@ class UserPageViewController: UIViewController {
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
     }
+    
+    @IBAction func pushTweetButton(_ sender: Any) {
+        let composer = TWTRComposer()
+        composer.show(from:self, completion: {[weak self] result in
+            if result == TWTRComposerResult.done {
+                self?.loadUserPageView()
+            }
+        })
+    }
+
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
