@@ -11,11 +11,11 @@ import AlamofireImage
 
 class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    /** View */
     @IBOutlet weak var tableView: LambdaTableView!
     @IBOutlet weak var tweetButton: UIButton!
-    var speechRecognizingView: SpeechRecognizingView!
-    
-    
+    private var speechRecognizingView: SpeechRecognizingView!
+    /** Model */
     private let model:TimeLineModel = TimeLineModel()
     
     override func viewDidLoad() {
@@ -33,7 +33,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         self.navigationController?.view.addSubview(self.speechRecognizingView)
         self.speechRecognizingView.isHidden = true
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadTimeLineView()
@@ -48,7 +47,94 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
                         },
                        completion: nil)
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
+    @IBAction func pushMoreButton(_ sender: Any) {
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        let searchCamera = UIAlertAction(title: "カメラ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            #if (!arch(i386) && !arch(x86_64))
+            // カメラロール起動
+            let iCtrler = UIImagePickerController()
+            iCtrler.sourceType = UIImagePickerControllerSourceType.camera
+            iCtrler.delegate = self
+            self?.present(iCtrler, animated: true)
+            #else
+            self?.showAlert("シミュレータなので使えません...\nライブラリ画像を使用してください")
+            #endif
+        })
+        let searchPhoto = UIAlertAction(title: "ライブラリ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            // カメラロール起動
+            let iCtrler = UIImagePickerController()
+            iCtrler.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            iCtrler.delegate = self
+            self?.present(iCtrler, animated: true)
+        })
+        let speech = UIAlertAction(title: "音声入力でTweet", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            self?.showSpeecingView()
+        })
+        let logout = UIAlertAction(title: "ログアウト", style: UIAlertActionStyle.destructive, handler: {[weak self] (action: UIAlertAction!) in
+            self?.model.logout()
+            // ログアウト後に再ログイン
+            self?.loadTimeLineView()
+        })
+        let login = UIAlertAction(title: "ログイン", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            self?.loadTimeLineView()
+        })
+        let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
+            
+        })
+        
+        actionSheet.addAction(searchCamera)
+        actionSheet.addAction(searchPhoto)
+        actionSheet.addAction(speech)
+        if (self.model.isLogin()) {
+            actionSheet.addAction(logout)
+        }
+        else {
+            actionSheet.addAction(login)
+        }
+        actionSheet.addAction(cancel)
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    @IBAction func pushTweetButton(_ sender: Any) {
+        self.showTweetEntry(nil)
+    }
+    
+    /** UIImagePickerControllerDelegate */
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // キャンセルボタンを押された時に呼ばれる
+        
+        picker.dismiss(animated: true, completion: nil)
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //写真が選択された時に呼ばれる
+        
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        self.model.analyzeImage(image!, {[weak self] idtext in
+            let storyboard: UIStoryboard = UIStoryboard(name: "SearchViewController", bundle: nil)
+            let nextView  = storyboard.instantiateInitialViewController() as! SearchViewController
+            nextView.searchText = idtext
+            self?.navigationController?.pushViewController(nextView, animated: true)
+        })
+        
+        //閉じる
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    /** RefreshControl event */
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadTimeLineView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
+
+    /** Load view */
     private func loadTimeLineView() {
         self.model.loadTimeLine({[weak self] twArray in
                                     self?.loadTableView(twArray)
@@ -57,7 +143,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
                                     self?.showAlert(message)
                                 })
     }
-    
     private func loadTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
@@ -116,7 +201,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         
         self.tableView.reloadData()
     }
-    
     private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
         
         if oldTwArray.count == 0 { return}
@@ -135,83 +219,7 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
                 self?.showAlert(message)
             })
     }
-    
-    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
-        self.loadTimeLineView()
-        // ローディングを終了
-        sender.endRefreshing()
-    }
-    
-    @IBAction func pushMoreButton(_ sender: Any) {
-        
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        
-        let searchCamera = UIAlertAction(title: "カメラ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
-            #if (!arch(i386) && !arch(x86_64))
-                // カメラロール起動
-                let iCtrler = UIImagePickerController()
-                iCtrler.sourceType = UIImagePickerControllerSourceType.camera
-                iCtrler.delegate = self
-                self?.present(iCtrler, animated: true)
-            #else
-                self?.showAlert("シミュレータなので使えません...\nライブラリ画像を使用してください")
-            #endif
-        })
-        let searchPhoto = UIAlertAction(title: "ライブラリ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
-            // カメラロール起動
-            let iCtrler = UIImagePickerController()
-            iCtrler.sourceType = UIImagePickerControllerSourceType.photoLibrary
-            iCtrler.delegate = self
-            self?.present(iCtrler, animated: true)
-        })
-        let speech = UIAlertAction(title: "音声入力でTweet", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
-            self?.showSpeecingView()
-        })
-        let logout = UIAlertAction(title: "ログアウト", style: UIAlertActionStyle.destructive, handler: {[weak self] (action: UIAlertAction!) in
-            self?.model.logout()
-            // ログアウト後に再ログイン
-            self?.loadTimeLineView()
-        })
-        let login = UIAlertAction(title: "ログイン", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
-            self?.loadTimeLineView()
-        })
-        let cancel = UIAlertAction(title: "キャンセル", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
-            
-        })
-        
-        actionSheet.addAction(searchCamera)
-        actionSheet.addAction(searchPhoto)
-        actionSheet.addAction(speech)
-        if (self.model.isLogin()) {
-            actionSheet.addAction(logout)
-        }
-        else {
-            actionSheet.addAction(login)
-        }
-        actionSheet.addAction(cancel)
-        
-        self.present(actionSheet, animated: true, completion: nil)
-    }
 
-    /** UIImagePickerControllerDelegate - キャンセルボタンを押された時に呼ばれる */
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    /** UIImagePickerControllerDelegate - 写真が選択された時に呼ばれる */
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
-        self.model.analyzeImage(image!, {[weak self] idtext in
-            let storyboard: UIStoryboard = UIStoryboard(name: "SearchViewController", bundle: nil)
-            let nextView  = storyboard.instantiateInitialViewController() as! SearchViewController
-            nextView.searchText = idtext
-            self?.navigationController?.pushViewController(nextView, animated: true)
-        })
-        
-        //閉じる
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
     private func showAlert(_ message:String) {
         let alert = UIAlertController(title: "エラーです", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let close = UIAlertAction(title: "閉じる", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
@@ -220,7 +228,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
     }
-    
     private func showSpeecingView() {
         
         var speechText = ""
@@ -269,11 +276,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             self?.showTweetEntry(speechText)
         }
     }
-    
-    @IBAction func pushTweetButton(_ sender: Any) {
-        self.showTweetEntry(nil)
-    }
-    
     private func showTweetEntry(_ text:String?) {
         
         let composer = TWTRComposer()
@@ -288,7 +290,6 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             }
         })
     }
-    
     private func presentUserPage(_ tweet:TweetModel) {
         
         UIView.animate(withDuration: 0.3,
@@ -306,10 +307,5 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
                       })
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 

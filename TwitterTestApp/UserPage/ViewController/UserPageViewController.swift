@@ -10,12 +10,17 @@ import UIKit
 
 class UserPageViewController: UIViewController {
 
+    /** Argument */
     var user:UserModel!
-    
+    /** VIew */
     @IBOutlet weak var tableView: LambdaTableView!
     @IBOutlet weak var tweetButton: UIButton!
-    
+    /** Model */
     private var model:UserPageModel = UserPageModel()
+    private enum Section: Int {
+        case user  = 0
+        case tweet = 1
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,6 @@ class UserPageViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadUserPageView()
@@ -44,7 +48,28 @@ class UserPageViewController: UIViewController {
                         },
                        completion: nil)
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
+    @IBAction func pushTweetButton(_ sender: Any) {
+        let composer = TWTRComposer()
+        composer.show(from:self, completion: {[weak self] result in
+            if result == TWTRComposerResult.done {
+                self?.loadUserPageView()
+            }
+        })
+    }
+
+    /** RefreshControl event */
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadUserPageView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
+    
+    /** Load view */
     private func loadUserPageView() {
         self.model.loadUserTimeLine(self.user.base!.userID,
                                     {[weak self] twArray in
@@ -54,12 +79,6 @@ class UserPageViewController: UIViewController {
                                         self?.showAlert(message)
                                     })
     }
-    
-    private enum Section: Int {
-        case user  = 0
-        case tweet = 1
-    }
-
     private func loadTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(UserViewCell.self, forCellReuseIdentifier: "UserViewCell")
@@ -115,7 +134,6 @@ class UserPageViewController: UIViewController {
         
         self.tableView.reloadData()
     }
-    
     private func loadUserCell(_ indexPath:IndexPath) -> UserViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "UserViewCell", for: indexPath) as! UserViewCell
         
@@ -156,7 +174,6 @@ class UserPageViewController: UIViewController {
         cell.layoutIfNeeded()
         return cell
     }
-    
     private func loadTweetCell(_ indexPath:IndexPath, _ twArray: Array<TweetModel>) -> TweetViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "TweetViewCell", for: indexPath) as! TweetViewCell
         
@@ -179,13 +196,6 @@ class UserPageViewController: UIViewController {
         cell.layoutIfNeeded()
         return cell
     }
-    
-    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
-        self.loadUserPageView()
-        // ローディングを終了
-        sender.endRefreshing()
-    }
-    
     private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
         
         if oldTwArray.count == 0 { return}
@@ -214,16 +224,6 @@ class UserPageViewController: UIViewController {
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
     }
-    
-    @IBAction func pushTweetButton(_ sender: Any) {
-        let composer = TWTRComposer()
-        composer.show(from:self, completion: {[weak self] result in
-            if result == TWTRComposerResult.done {
-                self?.loadUserPageView()
-            }
-        })
-    }
-
     private func presentUserPage(_ tweet:TweetModel) {
         
         UIView.animate(withDuration: 0.3,
@@ -240,9 +240,5 @@ class UserPageViewController: UIViewController {
                             self?.navigationController?.pushViewController(nextView, animated: true)
                         })
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 }

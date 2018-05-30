@@ -11,11 +11,12 @@ import Vision
 
 class SearchViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    @IBOutlet weak var tableView: LambdaTableView!
-    
-    private var model:SearchModel = SearchModel()
-    
+    /** Argument */
     var searchText:String!
+    /** View */
+    @IBOutlet weak var tableView: LambdaTableView!
+    /** Model */
+    private var model:SearchModel = SearchModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,12 +30,23 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
         refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadSearchView()
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
     
+    /** RefreshControl event */
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadSearchView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
+    
+    /** Load view */
     private func loadSearchView() {
         
         self.model.searchTweets(self.searchText,
@@ -45,7 +57,6 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
                                     self?.showAlert(message)
                                 })
     }
-    
     private func loadTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(TweetViewCell.self, forCellReuseIdentifier: "TweetViewCell")
@@ -108,7 +119,6 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         self.tableView.reloadData()
     }
-    
     private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
         
         if oldTwArray.count == 0 { return}
@@ -129,12 +139,6 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
                               })
     }
     
-    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
-        self.loadSearchView()
-        // ローディングを終了
-        sender.endRefreshing()
-    }
-
     private func showAlert(_ message:String) {
         let alert = UIAlertController(title: "エラーです", message: message, preferredStyle: UIAlertControllerStyle.alert)
         let close = UIAlertAction(title: "閉じる", style: UIAlertActionStyle.cancel, handler: { (action: UIAlertAction!) in
@@ -142,10 +146,5 @@ class SearchViewController: UIViewController, UIImagePickerControllerDelegate, U
         })
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }
