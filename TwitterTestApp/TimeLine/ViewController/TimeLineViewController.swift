@@ -92,7 +92,9 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             formatter.locale = Locale(identifier: "ja_JP")
             cell.dateLabel.text = formatter.string(from: tweet.base!.createdAt)
             
-            cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
+            cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!,
+                                                 placeholderImage: UIImage(named: "placeholder_oval"),
+                                                 imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
             
             cell.pushedIconButton = {[weak self] sender in
                 self?.presentUserPage(tweet)

@@ -128,7 +128,10 @@ class UserPageViewController: UIViewController {
 //            cell.backgroundImageView.af_setImage(withURL: url)
 //        }
         
-        cell.userImageView.af_setImage(withURL: URL(string: self.user.base!.profileImageLargeURL)!)
+        cell.userImageView.af_setImage(withURL: URL(string: self.user.base!.profileImageLargeURL)!,
+                                       placeholderImage: UIImage(named: "placeholder_oval"),
+                                       imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
+        
         cell.nameLabel.text = self.user.base?.name
         cell.screenNameLabel.text = "@" + self.user.base!.screenName
         cell.bioLabel.text = self.user.profileText
@@ -167,7 +170,9 @@ class UserPageViewController: UIViewController {
         formatter.locale = Locale(identifier: "ja_JP")
         cell.dateLabel.text = formatter.string(from: tweet.base!.createdAt)
         
-        cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
+        cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!,
+                                             placeholderImage: UIImage(named: "placeholder_oval"),
+                                             imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
         cell.pushedIconButton = {[weak self] sender in
             self?.presentUserPage(tweet)
         }
