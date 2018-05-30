@@ -19,6 +19,7 @@
 		332C1BE020B7DF51000F12E1 /* TimeLineViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BDE20B7DF51000F12E1 /* TimeLineViewController.storyboard */; };
 		332C1BE220B7DF56000F12E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BE120B7DF56000F12E1 /* Assets.xcassets */; };
 		332C1BE520B7DF56000F12E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 332C1BE320B7DF56000F12E1 /* LaunchScreen.storyboard */; };
+		336AC03D20BE656C003F85CE /* placeholder_oval.png in Resources */ = {isa = PBXBuildFile; fileRef = 336AC03C20BE656C003F85CE /* placeholder_oval.png */; };
 		33A9C96A20B7E7EC008AD6CA /* TweetViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33A9C96920B7E7EC008AD6CA /* TweetViewCell.xib */; };
 		33AAB7E720B9DBC90045A560 /* UserPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AAB7E620B9DBC90045A560 /* UserPageModel.swift */; };
 		33AAB7EA20BA36CE0045A560 /* UserViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33AAB7E820BA36CE0045A560 /* UserViewCell.swift */; };
@@ -58,6 +59,7 @@
 		332C1BE120B7DF56000F12E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		332C1BE420B7DF56000F12E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		332C1BE620B7DF56000F12E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		336AC03C20BE656C003F85CE /* placeholder_oval.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder_oval.png; sourceTree = "<group>"; };
 		33A9C96920B7E7EC008AD6CA /* TweetViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TweetViewCell.xib; sourceTree = "<group>"; };
 		33AAB7E620B9DBC90045A560 /* UserPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPageModel.swift; sourceTree = "<group>"; };
 		33AAB7E820BA36CE0045A560 /* UserViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewCell.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 		33B705E520B9BCBA0079FCB0 /* Asset */ = {
 			isa = PBXGroup;
 			children = (
+				336AC03C20BE656C003F85CE /* placeholder_oval.png */,
 				3303012320BCEE16005A38A5 /* tweetbtn.png */,
 				3303011320BBED33005A38A5 /* icon_splach.png */,
 				33AAB7EC20BA40CE0045A560 /* link.png */,
@@ -391,6 +394,7 @@
 				3303011420BBED34005A38A5 /* icon_splach.png in Resources */,
 				3303013320BD5D04005A38A5 /* ai.js in Resources */,
 				33AAB80120BA9D470045A560 /* SearchViewController.storyboard in Resources */,
+				336AC03D20BE656C003F85CE /* placeholder_oval.png in Resources */,
 				33AAB7ED20BA40CE0045A560 /* link.png in Resources */,
 				33A9C96A20B7E7EC008AD6CA /* TweetViewCell.xib in Resources */,
 				332C1BE020B7DF51000F12E1 /* TimeLineViewController.storyboard in Resources */,

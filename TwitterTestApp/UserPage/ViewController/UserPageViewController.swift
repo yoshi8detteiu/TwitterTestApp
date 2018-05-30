@@ -10,12 +10,17 @@ import UIKit
 
 class UserPageViewController: UIViewController {
 
+    /** Argument */
     var user:UserModel!
-    
+    /** VIew */
     @IBOutlet weak var tableView: LambdaTableView!
     @IBOutlet weak var tweetButton: UIButton!
-    
+    /** Model */
     private var model:UserPageModel = UserPageModel()
+    private enum Section: Int {
+        case user  = 0
+        case tweet = 1
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +34,6 @@ class UserPageViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(TimeLineViewController.refreshControlValueChanged(sender:)), for: .valueChanged)
         self.tableView.addSubview(refreshControl)
     }
-
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.loadUserPageView()
@@ -44,7 +48,28 @@ class UserPageViewController: UIViewController {
                         },
                        completion: nil)
     }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
 
+    @IBAction func pushTweetButton(_ sender: Any) {
+        let composer = TWTRComposer()
+        composer.show(from:self, completion: {[weak self] result in
+            if result == TWTRComposerResult.done {
+                self?.loadUserPageView()
+            }
+        })
+    }
+
+    /** RefreshControl event */
+    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
+        self.loadUserPageView()
+        // ローディングを終了
+        sender.endRefreshing()
+    }
+    
+    /** Load view */
     private func loadUserPageView() {
         self.model.loadUserTimeLine(self.user.base!.userID,
                                     {[weak self] twArray in
@@ -54,12 +79,6 @@ class UserPageViewController: UIViewController {
                                         self?.showAlert(message)
                                     })
     }
-    
-    private enum Section: Int {
-        case user  = 0
-        case tweet = 1
-    }
-
     private func loadTableView(_ twArray: Array<TweetModel>) {
         
         self.tableView.register(UserViewCell.self, forCellReuseIdentifier: "UserViewCell")
@@ -115,20 +134,13 @@ class UserPageViewController: UIViewController {
         
         self.tableView.reloadData()
     }
-    
     private func loadUserCell(_ indexPath:IndexPath) -> UserViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "UserViewCell", for: indexPath) as! UserViewCell
         
-//        if self.user.backgroundImagePath!.isEmpty {
-//            cell.backgroundImageView.isHidden = true
-//        }
-//        else {
-//            cell.backgroundImageView.isHidden = false
-//            let url = URL(string: self.user.backgroundImagePath!)!
-//            cell.backgroundImageView.af_setImage(withURL: url)
-//        }
+        cell.userImageView.af_setImage(withURL: URL(string: self.user.base!.profileImageLargeURL)!,
+                                       placeholderImage: UIImage(named: "placeholder_oval"),
+                                       imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
         
-        cell.userImageView.af_setImage(withURL: URL(string: self.user.base!.profileImageLargeURL)!)
         cell.nameLabel.text = self.user.base?.name
         cell.screenNameLabel.text = "@" + self.user.base!.screenName
         cell.bioLabel.text = self.user.profileText
@@ -153,7 +165,6 @@ class UserPageViewController: UIViewController {
         cell.layoutIfNeeded()
         return cell
     }
-    
     private func loadTweetCell(_ indexPath:IndexPath, _ twArray: Array<TweetModel>) -> TweetViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "TweetViewCell", for: indexPath) as! TweetViewCell
         
@@ -167,20 +178,15 @@ class UserPageViewController: UIViewController {
         formatter.locale = Locale(identifier: "ja_JP")
         cell.dateLabel.text = formatter.string(from: tweet.base!.createdAt)
         
-        cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!)
+        cell.authorIconImageView.af_setImage(withURL: URL(string: tweet.authorModel.base!.profileImageURL)!,
+                                             placeholderImage: UIImage(named: "placeholder_oval"),
+                                             imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
         cell.pushedIconButton = {[weak self] sender in
             self?.presentUserPage(tweet)
         }
         cell.layoutIfNeeded()
         return cell
     }
-    
-    @objc func refreshControlValueChanged(sender: UIRefreshControl) {
-        self.loadUserPageView()
-        // ローディングを終了
-        sender.endRefreshing()
-    }
-    
     private func moreTimeLineView(_ oldTwArray: Array<TweetModel>) {
         
         if oldTwArray.count == 0 { return}
@@ -209,16 +215,6 @@ class UserPageViewController: UIViewController {
         alert.addAction(close)
         self.present(alert, animated: true, completion: nil)
     }
-    
-    @IBAction func pushTweetButton(_ sender: Any) {
-        let composer = TWTRComposer()
-        composer.show(from:self, completion: {[weak self] result in
-            if result == TWTRComposerResult.done {
-                self?.loadUserPageView()
-            }
-        })
-    }
-
     private func presentUserPage(_ tweet:TweetModel) {
         
         UIView.animate(withDuration: 0.3,
@@ -235,9 +231,5 @@ class UserPageViewController: UIViewController {
                             self?.navigationController?.pushViewController(nextView, animated: true)
                         })
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+
 }
