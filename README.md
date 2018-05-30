@@ -15,8 +15,11 @@ Twitterクライアントアプリとして以下の機能を有しています
 
 ***DEMO:***
 
-TBD
-![Demo](https://image-url.gif)
+画像解析(CoreML)を使ったTweet検索  
+![Demo](https://github.com/yoshi8detteiu/TwitterTestApp/blob/develop/DEMO/image_analyze.gif)  
+
+音声認識を用いたTweetの投稿  
+![Demo](https://github.com/yoshi8detteiu/TwitterTestApp/blob/develop/DEMO/speech_recognize.gif)
 
 ## Features
 
@@ -28,7 +31,7 @@ TBD
 
 ## Recommended Operating Environment
 
-iPhone8 Plus iOS11.2 (Simurator)
+iPhone8 Plus iOS11.2 (Simurator)  
 XCode 9.3.1
 
 ## Requirement
