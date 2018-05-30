@@ -22,6 +22,11 @@ class TweetViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        let boundSize = UIScreen.main.bounds.size
+        if boundSize.width <= 320 {
+            self.dateLabel.removeConstraints(self.dateLabel.constraints)
+            self.dateLabel.isHidden = true
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

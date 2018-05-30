@@ -76,17 +76,17 @@ class UserPageViewController: UIViewController {
             }
             return 0
         }
-        
         self.tableView.dataSourceNumberOfSections = {
             return 2
         }
-        
         self.tableView.delegateHeightRowAt = { indexPath in
             return  UITableViewAutomaticDimension
         }
-        
         self.tableView.delegateEstimatedHeightForRowAt = { indexPath in
             return 100
+        }
+        self.tableView.delegateEditingStyleForRowAt = { indexPath in
+            return UITableViewCellEditingStyle.none
         }
         
         self.tableView.dataSourceCellForRowAt = {[weak self] indexPath in

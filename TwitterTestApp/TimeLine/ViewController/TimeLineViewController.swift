@@ -66,17 +66,17 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         self.tableView.dataSourceNumberOfRowsInSection = {section in
             return twArray.count
         }
-        
         self.tableView.dataSourceNumberOfSections = {
             return 1
         }
-        
         self.tableView.delegateHeightRowAt = { indexPath in
             return  UITableViewAutomaticDimension
         }
-        
         self.tableView.delegateEstimatedHeightForRowAt = { indexPath in
             return 100
+        }
+        self.tableView.delegateEditingStyleForRowAt = { indexPath in
+            return UITableViewCellEditingStyle.none
         }
         
         self.tableView.dataSourceCellForRowAt = {[weak self] indexPath in
@@ -144,13 +144,25 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
-        let search = UIAlertAction(title: "画像から検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
-            // カメラロール起動
-            let c = UIImagePickerController()
-            c.delegate = self
-            self?.present(c, animated: true)
+        let searchCamera = UIAlertAction(title: "カメラ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            #if (!arch(i386) && !arch(x86_64))
+                // カメラロール起動
+                let iCtrler = UIImagePickerController()
+                iCtrler.sourceType = UIImagePickerControllerSourceType.camera
+                iCtrler.delegate = self
+                self?.present(iCtrler, animated: true)
+            #else
+                self?.showAlert("シミュレータなので使えません...\nライブラリ画像を使用してください")
+            #endif
         })
-        let speech = UIAlertAction(title: "音声でツイート", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+        let searchPhoto = UIAlertAction(title: "ライブラリ画像を使って検索", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
+            // カメラロール起動
+            let iCtrler = UIImagePickerController()
+            iCtrler.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            iCtrler.delegate = self
+            self?.present(iCtrler, animated: true)
+        })
+        let speech = UIAlertAction(title: "音声入力でTweet", style: UIAlertActionStyle.default, handler: {[weak self] (action: UIAlertAction!) in
             self?.showSpeecingView()
         })
         let logout = UIAlertAction(title: "ログアウト", style: UIAlertActionStyle.destructive, handler: {[weak self] (action: UIAlertAction!) in
@@ -165,7 +177,8 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
             
         })
         
-        actionSheet.addAction(search)
+        actionSheet.addAction(searchCamera)
+        actionSheet.addAction(searchPhoto)
         actionSheet.addAction(speech)
         if (self.model.isLogin()) {
             actionSheet.addAction(logout)
