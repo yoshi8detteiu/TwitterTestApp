@@ -66,17 +66,17 @@ class TimeLineViewController: UIViewController, UIImagePickerControllerDelegate,
         self.tableView.dataSourceNumberOfRowsInSection = {section in
             return twArray.count
         }
-        
         self.tableView.dataSourceNumberOfSections = {
             return 1
         }
-        
         self.tableView.delegateHeightRowAt = { indexPath in
             return  UITableViewAutomaticDimension
         }
-        
         self.tableView.delegateEstimatedHeightForRowAt = { indexPath in
             return 100
+        }
+        self.tableView.delegateEditingStyleForRowAt = { indexPath in
+            return UITableViewCellEditingStyle.none
         }
         
         self.tableView.dataSourceCellForRowAt = {[weak self] indexPath in
