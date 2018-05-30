@@ -137,15 +137,6 @@ class UserPageViewController: UIViewController {
     private func loadUserCell(_ indexPath:IndexPath) -> UserViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "UserViewCell", for: indexPath) as! UserViewCell
         
-//        if self.user.backgroundImagePath!.isEmpty {
-//            cell.backgroundImageView.isHidden = true
-//        }
-//        else {
-//            cell.backgroundImageView.isHidden = false
-//            let url = URL(string: self.user.backgroundImagePath!)!
-//            cell.backgroundImageView.af_setImage(withURL: url)
-//        }
-        
         cell.userImageView.af_setImage(withURL: URL(string: self.user.base!.profileImageLargeURL)!,
                                        placeholderImage: UIImage(named: "placeholder_oval"),
                                        imageTransition: UIImageView.ImageTransition.crossDissolve(0.1))
